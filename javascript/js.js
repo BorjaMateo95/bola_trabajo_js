@@ -1,3 +1,7 @@
+var numeroEstudios = 0;
+var numeroExperiencias = 0;
+var numeroCursos = 0;
+
 function pintaCrearUsuario(alumno) {
 	var fondo = document.getElementById("fondo");
 	limpiarPantalla(fondo);
@@ -199,6 +203,7 @@ function pintaCrearUsuario(alumno) {
 
 function pintaAnadirCursos(form) {
 
+
     var fondo = document.getElementById("fondo");
     var contenido = document.createElement("div");
 
@@ -225,8 +230,8 @@ function pintaAnadirCursos(form) {
 
     inputD.setAttribute("type", "text");
     inputD.setAttribute("class", "form-control");
-    inputD.setAttribute("id", "cursoNombre");
-    inputD.setAttribute("name", "cursoNombre");
+    inputD.setAttribute("id", "cursoNombre" + numeroCursos);
+    inputD.setAttribute("name", "cursoNombre" + numeroCursos);
     inputD.setAttribute("placeholder", "Nombre Curso");
 
     divdos.appendChild(inputD);
@@ -245,8 +250,8 @@ function pintaAnadirCursos(form) {
 
     inputD.setAttribute("type", "text");
     inputD.setAttribute("class", "form-control");
-    inputD.setAttribute("id", "cursoPerfil");
-    inputD.setAttribute("name", "cursoPerfil");
+    inputD.setAttribute("id", "cursoPerfil"+numeroCursos);
+    inputD.setAttribute("name", "cursoPerfil"+numeroCursos);
     inputD.setAttribute("placeholder", "Perfil");
 
     divtres.appendChild(inputD);
@@ -266,9 +271,11 @@ function pintaAnadirCursos(form) {
 
     inputD.setAttribute("type", "number");
     inputD.setAttribute("class", "form-control");
-    inputD.setAttribute("id", "cursoHoras");
-    inputD.setAttribute("name", "cursoHoras");
+    inputD.setAttribute("id", "cursoHoras"+numeroCursos);
+    inputD.setAttribute("name", "cursoHoras"+numeroCursos);
     inputD.setAttribute("placeholder", "Horas curso");
+
+    numeroCursos++;
 
     divcuatro.appendChild(inputD);
 
@@ -277,6 +284,7 @@ function pintaAnadirCursos(form) {
 }
 
 function pintaAnadirExperiencia(form) {
+
     var fondo = document.getElementById("fondo");
 
     var contenido = document.createElement("div");
@@ -304,8 +312,8 @@ function pintaAnadirExperiencia(form) {
 
     inputD.setAttribute("type", "text");
     inputD.setAttribute("class", "form-control");
-    inputD.setAttribute("id", "experiencia");
-    inputD.setAttribute("name", "experiencia");
+    inputD.setAttribute("id", "experienciaTrabajo"+numeroExperiencias);
+    inputD.setAttribute("name", "experienciaTrabajo"+numeroExperiencias);
     inputD.setAttribute("placeholder", "Trabajo");
 
     divdos.appendChild(inputD);
@@ -316,17 +324,17 @@ function pintaAnadirExperiencia(form) {
     contenido.appendChild(divtres);
 
     var label = document.createElement("label");
-    label.setAttribute("for", "perfil");
-    label.innerHTML = "Perfil";
+    label.setAttribute("for", "empresal");
+    label.innerHTML = "Empresa";
     divtres.appendChild(label);
 
     var inputD = document.createElement("input");
 
     inputD.setAttribute("type", "text");
     inputD.setAttribute("class", "form-control");
-    inputD.setAttribute("id", "experiencia");
-    inputD.setAttribute("name", "experiencia");
-    inputD.setAttribute("placeholder", "Perfil");
+    inputD.setAttribute("id", "experienciaEmpresa"+numeroExperiencias);
+    inputD.setAttribute("name", "experienciaEmpresa"+numeroExperiencias);
+    inputD.setAttribute("placeholder", "Empresa");
 
     divtres.appendChild(inputD);
 
@@ -345,19 +353,21 @@ function pintaAnadirExperiencia(form) {
 
     inputD.setAttribute("type", "number");
     inputD.setAttribute("class", "form-control");
-    inputD.setAttribute("id", "tiempo");
-    inputD.setAttribute("name", "tiempo");
+    inputD.setAttribute("id", "experienciaTiempo"+numeroExperiencias);
+    inputD.setAttribute("name", "experienciaTiempo"+numeroExperiencias);
     inputD.setAttribute("placeholder", "1");
 
     divcuatro.appendChild(inputD);
 
+    numeroExperiencias++;
+
     form.appendChild(divcuatro);
-    fondo.appendChild(contenido);
-  
-    
+    fondo.appendChild(contenido);  
 }
 
+
 function pintaAnadirEstudios(form) {
+
     var fondo = document.getElementById("fondo");
 
     var contenido = document.createElement("div");
@@ -386,15 +396,18 @@ function pintaAnadirEstudios(form) {
             if(objeto!=0){
                 for(i=0; i<objeto.length; i++) {
                     var option = document.createElement("option");
+                    option.value=objeto[i]["id"];
                     option.text = objeto[i]["nombre"];
                     inputD.appendChild(option);
                 }
 
                 inputD.setAttribute("type", "select");
                 inputD.setAttribute("class", "form-control");
-                inputD.setAttribute("id", "cursos");
-                inputD.setAttribute("name", "cursos");
+                inputD.setAttribute("id", "estudios"+numeroEstudios);
+                inputD.setAttribute("name", "estudios"+numeroEstudios);
                 //div.appendChild(inputD);
+                numeroEstudios++;
+
                 form.appendChild(inputD);
                 fondo.appendChild(contenido);
             }else{
@@ -416,8 +429,13 @@ function insertaUsuarioBD() {
     var email = document.getElementById("email").value;
 
     //cursos
-    var nombreCurso = document.getElementById("cursoNombre").value;
-    alert(nombreCurso);
+    insertaCurso(dni);
+
+    //estudios
+    insertaEstudios(dni);
+
+    //experiencia
+    insertaExperiencia(dni);
 
     var objetoUsuario = {'dni': dni, 'nombre': nombre, 'apellidos': apellidos, 'direccion': direccion, 'email': email};
     var json = JSON.stringify(objetoUsuario);
@@ -432,6 +450,68 @@ function insertaUsuarioBD() {
     }
 
 }
+
+function insertaCurso(dni) {
+
+    for(i=0; i < numeroCursos; i++) {
+        var nombreCurso = document.getElementById("cursoNombre"+i).value;
+        var perfilCurso = document.getElementById("cursoPerfil"+i).value;
+        var cursoHoras = document.getElementById("cursoHoras"+i).value;
+
+        var objetoCurso = {'dni': dni, 'nombre': nombreCurso, 'perfil': perfilCurso, 'horas': cursoHoras};
+        var json = JSON.stringify(objetoCurso);
+        objetoAjax = ObjetoAjax();
+        objetoAjax.open('GET', "php/setCurso.php?json=" + json);
+        objetoAjax.send();
+        objetoAjax.onreadystatechange = function () {
+            if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+
+            }
+        }
+    }
+
+
+}
+
+function insertaEstudios(dni) {
+
+    for(i=0; i < numeroEstudios; i++) {
+        var valueEstudio = document.getElementById("estudios"+i).value;
+
+        var objetoEstudio = {'dni': dni, 'idEstudio': valueEstudio};
+        var json = JSON.stringify(objetoEstudio);
+        objetoAjax = ObjetoAjax();
+        objetoAjax.open('GET', "php/setEstudios.php?json=" + json);
+        objetoAjax.send();
+        objetoAjax.onreadystatechange = function () {
+            if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+
+            }
+        }
+
+    }
+
+}
+
+function insertaExperiencia(dni) {
+    for(i=0; i < numeroExperiencias; i++) {
+        var expTrabajo = document.getElementById("experienciaTrabajo"+i).value;
+        var expEmpresa = document.getElementById("experienciaEmpresa"+i).value;
+        var expTiempo = document.getElementById("experienciaTiempo"+i).value;
+
+        var objExperiencia = {'dni': dni, 'trabajo': expTrabajo, 'empresa': expEmpresa, 'tiempo': expTiempo};
+        var json = JSON.stringify(objExperiencia);
+        objetoAjax = ObjetoAjax();
+        objetoAjax.open('GET', "php/setExperiencia.php?json=" + json);
+        objetoAjax.send();
+        objetoAjax.onreadystatechange = function () {
+            if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+
+            }
+        }
+    }
+}
+
 
 
 function pintaBuscarDNI() {
