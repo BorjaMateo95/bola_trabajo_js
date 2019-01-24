@@ -202,8 +202,6 @@ function pintaCrearUsuario(alumno) {
 }
 
 function pintaAnadirCursos(form) {
-
-
     var fondo = document.getElementById("fondo");
     var contenido = document.createElement("div");
 
@@ -284,7 +282,6 @@ function pintaAnadirCursos(form) {
 }
 
 function pintaAnadirExperiencia(form) {
-
     var fondo = document.getElementById("fondo");
 
     var contenido = document.createElement("div");
@@ -582,19 +579,61 @@ function buscaDNI() {
 }
 
 
-function limpiarPantalla(cosa) {
-    var arrayHijos = cosa.children;
-    for (var i = arrayHijos.length - 1; i > -1; i--) {
-        cosa.removeChild(arrayHijos[i]);
-    }
-}
 
+function iniciarSesionSolicitante() {
+    var fondo = document.getElementById("fondo");
+    limpiarPantalla(fondo);
 
-function ObjetoAjax() {
-    if (window.XMLHttpRequest) {
-        objetoAjax = new XMLHttpRequest();
-    } else {
-        objetoAjax = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    return objetoAjax;
+    var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:25%;");
+
+    var h2 = document.createElement("h2");
+    h2.innerHTML = "Iniciar Sesion";
+    contenido.appendChild(h2);
+    var form = document.createElement("form");
+    form.setAttribute("action", "submit");
+    contenido.appendChild(form);
+
+//dni
+    var label = document.createElement("label");
+    label.setAttribute("for", "dni");
+    label.innerHTML = "DNI";
+    form.appendChild(label);
+
+    var input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.setAttribute("class", "form-control");
+    input.setAttribute("id", "dni");
+    input.setAttribute("placeholder", "12345678X");
+    input.setAttribute("name", "dni");
+    input.required = true;
+    form.appendChild(input);
+
+//contraseña
+    var label = document.createElement("label");
+    label.setAttribute("for", "password");
+    label.innerHTML = "Contraseña";
+    form.appendChild(label);
+
+    var input = document.createElement("input");
+    input.setAttribute("type", "password");
+    input.setAttribute("class", "form-control");
+    input.setAttribute("id", "password");
+    input.setAttribute("name", "password");
+    input.required = true;
+    form.appendChild(input);
+
+    var boton = document.createElement("button");
+    boton.setAttribute("class", "btn btn-primary btn-block");
+    boton.setAttribute("style", "width:40%; text-align: center; margin: 0 auto; margin-top: 10px;");
+    boton.addEventListener("click", function (event) {
+        event.preventDefault();
+        iniciaSesion();
+    });
+
+    boton.innerHTML = "Entrar";
+    form.appendChild(boton);
+    fondo.appendChild(contenido);
 }
