@@ -434,7 +434,7 @@ function insertaUsuarioBD() {
     //experiencia
     insertaExperiencia(dni);
 
-    var objetoUsuario = {'dni': dni, 'nombre': nombre, 'apellidos': apellidos, 'direccion': direccion, 'email': email};
+    var objetoUsuario = {'dni': dni, 'nombre': nombre, 'apellidos': apellidos, 'direccion': direccion, 'email': email, 'password': generaPassword()};
     var json = JSON.stringify(objetoUsuario);
     objetoAjax = ObjetoAjax();
     objetoAjax.open('GET', "php/setAlumno.php?json=" + json);

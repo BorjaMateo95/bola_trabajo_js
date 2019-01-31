@@ -94,6 +94,41 @@ function pintaCrearEmpresa() {
     divcinco.appendChild(inputE);
     form.appendChild(divrow2);
 
+    var divseis = document.createElement("div");
+    divseis.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divseis);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "direccion");
+    label.innerHTML = "Direccion";
+    divseis.appendChild(label);
+    var inputE = document.createElement("input");
+    inputE.setAttribute("type", "text");
+    inputE.setAttribute("class", "form-control");
+    inputE.setAttribute("id", "direccion");
+    inputE.setAttribute("placeholder", "C/ piruleta");
+    inputE.setAttribute("name", "direccion");
+    divseis.appendChild(inputE);
+    form.appendChild(divrow2);
+
+
+    var divsiete = document.createElement("div");
+    divsiete.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divsiete);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "pcontacto");
+    label.innerHTML = "Persona Contacto";
+    divsiete.appendChild(label);
+    var inputE = document.createElement("input");
+    inputE.setAttribute("type", "pcontacto");
+    inputE.setAttribute("class", "form-control");
+    inputE.setAttribute("id", "pcontacto");
+    inputE.setAttribute("placeholder", "Perico");
+    inputE.setAttribute("name", "pcontacto");
+    divsiete.appendChild(inputE);
+    form.appendChild(divrow2);
+
     var divboton = document.createElement("div");
     divboton.setAttribute("class", "row");
     divboton.setAttribute("style", "margin-top: 5px");
@@ -177,17 +212,188 @@ function pintaIniciarSesionEmpresa() {
 }
 
 
+function iniciaSesion() {
+    var cif = document.getElementById("cif").value;
+    var password = document.getElementById("password").value;
+
+    var objLogin = {'cif': cif, 'password': password};
+    var json = JSON.stringify(objLogin);
+    objetoAjax = ObjetoAjax();
+    objetoAjax.open('GET', "php/loginEmpresa.php?json=" + json);
+    objetoAjax.send();
+    objetoAjax.onreadystatechange = function () {
+        if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+            var datos = objetoAjax.responseText;
+            var objeto = JSON.parse(datos);
+            if(objeto==0) {
+                alert("Usuario o contraseña incorrecto");
+            }else{
+                dameCursos()
+                
+            }
+
+        }
+    }
+}
+
+function dameCursos() {
+    //perfiles
+    objetoAjax = ObjetoAjax();
+    objetoAjax.open('GET', "php/getCursosCentro.php");
+    objetoAjax.send();
+    objetoAjax.onreadystatechange = function () {
+        if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+            var datos = objetoAjax.responseText;
+            var objeto = JSON.parse(datos);
+            pintaSolicitarEmpleo(objeto);
+        }
+    }
+}
+
+function pintaSolicitarEmpleo(objeto) {
+
+    var fondo = document.getElementById("fondo");
+    limpiarPantalla(fondo);
+
+    var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:80%;");
+
+    var h2 = document.createElement("h2");
+    h2.innerHTML = "Buscar Alumnos";
+    contenido.appendChild(h2);
+    var form = document.createElement("form");
+    form.setAttribute("action", "submit");
+    contenido.appendChild(form);
+
+    var divrow = document.createElement("div");
+    divrow.setAttribute("class", "row");
+    contenido.appendChild(divrow);
+    form.appendChild(divrow);
+
+    var divdos = document.createElement("div");
+    divdos.setAttribute("class", "col-sm-4");
+    divrow.appendChild(divdos);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "dni");
+    label.innerHTML = "Perfil";
+    divdos.appendChild(label);
+
+    var inputD = document.createElement("select");
+    inputD.setAttribute("type", "select");
+    inputD.setAttribute("class", "form-control");
+    inputD.setAttribute("id", "perfil");
+    inputD.setAttribute("name", "perfil");
+
+    for(i=0; i < objeto.length; i++) {
+        var option = document.createElement("option");
+        option.value=objeto[i]["id"];
+        option.text = objeto[i]["nombre"];
+        inputD.appendChild(option);
+    }
+
+    divdos.appendChild(inputD);
+    form.appendChild(divrow);
+
+    var divtres = document.createElement("div");
+    divtres.setAttribute("class", "col-sm-4");
+    divrow.appendChild(divtres);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "experiencia");
+    label.innerHTML = "Experiencia";
+    divtres.appendChild(label);
+    var inputN = document.createElement("input");
+    inputN.setAttribute("type", "number");
+    inputN.setAttribute("class", "form-control");
+    inputN.setAttribute("id", "experiencia");
+    inputN.setAttribute("placeholder", "Meses");
+    inputN.setAttribute("name", "experiencia");
+    divtres.appendChild(inputN);
+    form.appendChild(divrow);
+
+    var divcuatro = document.createElement("div");
+    divcuatro.setAttribute("class", "col-sm-4");
+    divrow.appendChild(divcuatro);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "experiencia");
+    label.innerHTML = "Cambiar de residencia";
+    divcuatro.appendChild(label);
+
+    var inputA = document.createElement("input");
+    inputA.innerHTML = "Disponibilidad para viajar"
+    inputA.setAttribute("type", "checkbox");
+    inputA.setAttribute("class", "form-control");
+    inputA.setAttribute("id", "viajar");
+    inputA.setAttribute("name", "viajar");
+    divcuatro.appendChild(inputA);
+    form.appendChild(divrow);
+
+    var divrow2 = document.createElement("div");
+    divrow2.setAttribute("class", "row");
+    contenido.appendChild(divrow2);
+    form.appendChild(divrow2);
+
+    var divcinco = document.createElement("div");
+    divcinco.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divcinco);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "experiencia");
+    label.innerHTML = "Posibilidad Viajar";
+    divcinco.appendChild(label);
+
+    var inputE = document.createElement("input");
+    inputE.setAttribute("type", "checkbox");
+    inputE.setAttribute("class", "form-control");
+    inputE.setAttribute("id", "cambiarresidencia");
+    inputE.setAttribute("name", "cambiarresidencia");
+
+    divcinco.appendChild(inputE);
+    form.appendChild(divrow2);    
+
+    var divboton = document.createElement("div");
+    divboton.setAttribute("class", "row");
+    divboton.setAttribute("style", "margin-top: 5px");
+    contenido.appendChild(divboton);
+
+    var col = document.createElement("div");
+    col.setAttribute("class", "col");
+    divboton.appendChild(col);
+
+
+    var boton = document.createElement("button");
+    boton.setAttribute("class", "btn btn-primary");//float-right
+    boton.setAttribute("style", "width:30%;");
+    boton.addEventListener("click", function (event) {
+        event.preventDefault();
+        insertaUsuarioBD();
+
+    });
+
+    boton.innerHTML = "Buscar Alumnos";
+    col.appendChild(boton);
+    form.appendChild(divboton);
+    fondo.appendChild(contenido);
+
+
+}
+
+
 
 function insertarEmpresaBD() {
     var cif = document.getElementById("cif").value;
     var nombre = document.getElementById("name").value;
     var telefono = document.getElementById("telefono").value;
     var email = document.getElementById("email").value;
-
-
+    var direccion = document.getElementById("direccion").value;
+    var pContacto = document.getElementById("pcontacto").value;
 
     var objetoEmpresa = {'cif': cif, 'nombre': nombre, 'telefono': telefono, 'email': email, 
-    'password': generaPassword()};
+    'password': generaPassword(), 'direccion': direccion, 'pcontacto': pContacto};
 
     var json = JSON.stringify(objetoEmpresa);
     objetoAjax = ObjetoAjax();
@@ -200,6 +406,7 @@ function insertarEmpresaBD() {
             alert("Perfil empresa creado correctamente");
             var fondo = document.getElementById("fondo");
             limpiarPantalla(fondo);
+            pintaIniciarSesionEmpresa();
         }
     }
 
