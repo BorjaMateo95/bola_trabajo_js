@@ -203,7 +203,7 @@ function pintaIniciarSesionEmpresa() {
     boton.setAttribute("style", "width:40%; text-align: center; margin: 0 auto; margin-top: 10px;");
     boton.addEventListener("click", function (event) {
         event.preventDefault();
-        iniciaSesion();
+        iniciaSesionEmpresa();
     });
 
     boton.innerHTML = "Entrar";
@@ -212,7 +212,7 @@ function pintaIniciarSesionEmpresa() {
 }
 
 
-function iniciaSesion() {
+function iniciaSesionEmpresa() {
     var cif = document.getElementById("cif").value;
     var password = document.getElementById("password").value;
 
@@ -228,7 +228,15 @@ function iniciaSesion() {
             if(objeto==0) {
                 alert("Usuario o contraseña incorrecto");
             }else{
-                dameCursos()
+
+                if(objeto['temporal'] == "true") {
+                    var fondo = document.getElementById("fondo");
+                    limpiarPantalla(fondo);
+                    pideCambioContraseñaEmp(objeto['cif']);
+                }else{
+                    dameCursos();
+                }
+                
                 
             }
 
@@ -410,5 +418,83 @@ function insertarEmpresaBD() {
         }
     }
 
+}
 
+
+function guardarNuevaPasswordEmp(identificador) {
+    var pass1 = document.getElementById("passnueva1").value;
+    var pass2 = document.getElementById("passnueva2").value;
+
+    if(pass1 == pass2) {
+        var objPass = {'perfil': 'empresa', 'identificador': identificador, 'pass1': pass1};
+        var json = JSON.stringify(objPass);
+        objetoAjax = ObjetoAjax();
+        objetoAjax.open('GET', "php/updatePassword.php?json=" + json);
+        objetoAjax.send();
+        objetoAjax.onreadystatechange = function () {
+            if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+                dameCursos();
+            }
+        }
+    }else{
+        document.getElementById("passnueva1").value = "";
+        document.getElementById("passnueva1").value = "";
+        alert("Las contraseñas no coinciden");
+    }
+
+}
+
+
+function pideCambioContraseñaEmp(identificador) {
+    var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:25%;");
+
+    var h2 = document.createElement("h2");
+    h2.innerHTML = "Contraseña Nueva";
+    contenido.appendChild(h2);
+    var form = document.createElement("form");
+    form.setAttribute("action", "submit");
+    contenido.appendChild(form);
+
+    //pass 1
+    var label = document.createElement("label");
+    label.setAttribute("for", "passnueva1");
+    label.innerHTML = "Contraseña";
+    form.appendChild(label);
+
+    var input = document.createElement("input");
+    input.setAttribute("type", "password");
+    input.setAttribute("class", "form-control");
+    input.setAttribute("id", "passnueva1");
+    input.setAttribute("name", "passnueva1");
+    input.required = true;
+    form.appendChild(input);
+
+    //pass 2
+    var label = document.createElement("label");
+    label.setAttribute("for", "passnueva2");
+    label.innerHTML = "Confirmar Contraseña";
+    form.appendChild(label);
+
+    var inputP = document.createElement("input");
+    inputP.setAttribute("type", "password");
+    inputP.setAttribute("class", "form-control");
+    inputP.setAttribute("id", "passnueva2");
+    inputP.setAttribute("name", "passnueva2");
+    inputP.required = true;
+    form.appendChild(inputP);
+
+    var boton = document.createElement("button");
+    boton.setAttribute("class", "btn btn-primary btn-block");
+    boton.setAttribute("style", "width:40%; text-align: center; margin: 0 auto; margin-top: 10px;");
+    boton.addEventListener("click", function (event) {
+        event.preventDefault();
+        guardarNuevaPasswordEmp(identificador);
+    });
+
+    boton.innerHTML = "Guardar";
+    form.appendChild(boton);
+    fondo.appendChild(contenido);
 }

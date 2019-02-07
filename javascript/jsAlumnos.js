@@ -596,7 +596,7 @@ function iniciarSesionSolicitante() {
     form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
-//dni
+    //dni
     var label = document.createElement("label");
     label.setAttribute("for", "dni");
     label.innerHTML = "DNI";
@@ -617,13 +617,13 @@ function iniciarSesionSolicitante() {
     label.innerHTML = "Contraseña";
     form.appendChild(label);
 
-    var input = document.createElement("input");
-    input.setAttribute("type", "password");
-    input.setAttribute("class", "form-control");
-    input.setAttribute("id", "password");
-    input.setAttribute("name", "password");
-    input.required = true;
-    form.appendChild(input);
+    var inputP = document.createElement("input");
+    inputP.setAttribute("type", "password");
+    inputP.setAttribute("class", "form-control");
+    inputP.setAttribute("id", "password");
+    inputP.setAttribute("name", "password");
+    inputP.required = true;
+    form.appendChild(inputP);
 
     var boton = document.createElement("button");
     boton.setAttribute("class", "btn btn-primary btn-block");
@@ -634,6 +634,117 @@ function iniciarSesionSolicitante() {
     });
 
     boton.innerHTML = "Entrar";
+    form.appendChild(boton);
+    fondo.appendChild(contenido);
+}
+
+
+function iniciaSesion() {
+    var dni = document.getElementById("dni").value;
+    var pass = document.getElementById("password").value;
+
+    var objLogin = {'dni': dni, 'password': pass};
+    var json = JSON.stringify(objLogin);
+    objetoAjax = ObjetoAjax();
+    objetoAjax.open('GET', "php/loginAlumno.php?json=" + json);
+    objetoAjax.send();
+    objetoAjax.onreadystatechange = function () {
+        if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+            var datos = objetoAjax.responseText;
+            var objeto = JSON.parse(datos);
+
+            if(objeto!=0){
+                var fondo = document.getElementById("fondo");
+                limpiarPantalla(fondo);
+                if(objeto['temporal'] == "true") {
+                    pideCambioContraseña(objeto['dni']);
+                }
+            }else{
+                alert("DNI o Contraseña incorrecto");
+            }
+
+            
+        }
+    }
+
+}
+
+
+function guardarNuevaPassword(identificador) {
+    var pass1 = document.getElementById("passnueva1").value;
+    var pass2 = document.getElementById("passnueva2").value;
+
+    if(pass1 == pass2) {
+        var objPass = {'perfil': 'alumno', 'identificador': identificador, 'pass1': pass1};
+        var json = JSON.stringify(objPass);
+        objetoAjax = ObjetoAjax();
+        objetoAjax.open('GET', "php/updatePassword.php?json=" + json);
+        objetoAjax.send();
+        objetoAjax.onreadystatechange = function () {
+            if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+                var fondo = document.getElementById("fondo");
+                limpiarPantalla(fondo);
+            }
+        }
+    }else{
+        document.getElementById("passnueva1").value = "";
+        document.getElementById("passnueva1").value = "";
+        alert("Las contraseñas no coinciden");
+    }
+
+}
+
+
+function pideCambioContraseña(identificador) {
+    var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:25%;");
+
+    var h2 = document.createElement("h2");
+    h2.innerHTML = "Contraseña Nueva";
+    contenido.appendChild(h2);
+    var form = document.createElement("form");
+    form.setAttribute("action", "submit");
+    contenido.appendChild(form);
+
+    //pass 1
+    var label = document.createElement("label");
+    label.setAttribute("for", "passnueva1");
+    label.innerHTML = "Contraseña";
+    form.appendChild(label);
+
+    var input = document.createElement("input");
+    input.setAttribute("type", "password");
+    input.setAttribute("class", "form-control");
+    input.setAttribute("id", "passnueva1");
+    input.setAttribute("name", "passnueva1");
+    input.required = true;
+    form.appendChild(input);
+
+    //pass 2
+    var label = document.createElement("label");
+    label.setAttribute("for", "passnueva2");
+    label.innerHTML = "Confirmar Contraseña";
+    form.appendChild(label);
+
+    var inputP = document.createElement("input");
+    inputP.setAttribute("type", "password");
+    inputP.setAttribute("class", "form-control");
+    inputP.setAttribute("id", "passnueva2");
+    inputP.setAttribute("name", "passnueva2");
+    inputP.required = true;
+    form.appendChild(inputP);
+
+    var boton = document.createElement("button");
+    boton.setAttribute("class", "btn btn-primary btn-block");
+    boton.setAttribute("style", "width:40%; text-align: center; margin: 0 auto; margin-top: 10px;");
+    boton.addEventListener("click", function (event) {
+        event.preventDefault();
+        guardarNuevaPassword(identificador);
+    });
+
+    boton.innerHTML = "Guardar";
     form.appendChild(boton);
     fondo.appendChild(contenido);
 }
