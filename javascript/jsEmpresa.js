@@ -378,7 +378,7 @@ function pintaSolicitarEmpleo(objeto) {
     boton.setAttribute("style", "width:30%;");
     boton.addEventListener("click", function (event) {
         event.preventDefault();
-        insertaUsuarioBD();
+        buscarAlumnos();
 
     });
 
@@ -387,9 +387,32 @@ function pintaSolicitarEmpleo(objeto) {
     form.appendChild(divboton);
     fondo.appendChild(contenido);
 
-
 }
 
+
+function buscarAlumnos() {
+    var perfil = document.getElementById("perfil").value;
+    var experiencia = document.getElementById("experiencia").value;
+    var cambiarResidencia = document.getElementById("cambiarresidencia").value;
+    var posibilidadViajar = document.getElementById("viajar").value;
+
+    var objetoSolicitud = {'perfil': perfil, 'experiencia': experiencia, 'cambiarResidencia': cambiarResidencia, 'posibilidadViajar': posibilidadViajar};
+    var json = JSON.stringify(objetoSolicitud);
+    objetoAjax = ObjetoAjax();
+    objetoAjax.open('GET', "php/getAlumnosPerfil.php?json=" + json);
+    objetoAjax.send();
+    objetoAjax.onreadystatechange = function () {
+        if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+            var datos = objetoAjax.responseText;
+            var objeto = JSON.parse(datos);
+            alert("alumnos encontrados: " + objeto.length);
+            
+        }
+    }
+
+
+
+}
 
 
 function insertarEmpresaBD() {
