@@ -467,6 +467,8 @@ function insertaCurso(dni) {
         }
     }
 
+    numeroCursos = 0;
+
 
 }
 
@@ -488,6 +490,8 @@ function insertaEstudios(dni) {
 
     }
 
+    numeroEstudios = 0;
+
 }
 
 function insertaExperiencia(dni) {
@@ -507,6 +511,8 @@ function insertaExperiencia(dni) {
             }
         }
     }
+
+    numeroExperiencias = 0;
 }
 
 
@@ -657,10 +663,13 @@ function iniciaSesion() {
                 var fondo = document.getElementById("fondo");
                 limpiarPantalla(fondo);
                 if(objeto['temporal'] == "true") {
-                    pideCambioContraseña(objeto['dni']);
+                    pideCambioContraseña(objeto);
+                }else{
+                    pintaUsuarioRegistrado(objeto);
                 }
             }else{
                 alert("DNI o Contraseña incorrecto");
+
             }
 
             
@@ -670,12 +679,12 @@ function iniciaSesion() {
 }
 
 
-function guardarNuevaPassword(identificador) {
+function guardarNuevaPassword(objeto) {
     var pass1 = document.getElementById("passnueva1").value;
     var pass2 = document.getElementById("passnueva2").value;
 
     if(pass1 == pass2) {
-        var objPass = {'perfil': 'alumno', 'identificador': identificador, 'pass1': pass1};
+        var objPass = {'perfil': 'alumno', 'identificador': objeto['dni'], 'pass1': pass1};
         var json = JSON.stringify(objPass);
         objetoAjax = ObjetoAjax();
         objetoAjax.open('GET', "php/updatePassword.php?json=" + json);
@@ -684,6 +693,8 @@ function guardarNuevaPassword(identificador) {
             if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
                 var fondo = document.getElementById("fondo");
                 limpiarPantalla(fondo);
+                pintaUsuarioRegistrado(objeto);
+
             }
         }
     }else{
@@ -695,7 +706,7 @@ function guardarNuevaPassword(identificador) {
 }
 
 
-function pideCambioContraseña(identificador) {
+function pideCambioContraseña(objeto) {
     var contenido = document.createElement("div");
 
     contenido.setAttribute("id", "contenido");
@@ -741,10 +752,237 @@ function pideCambioContraseña(identificador) {
     boton.setAttribute("style", "width:40%; text-align: center; margin: 0 auto; margin-top: 10px;");
     boton.addEventListener("click", function (event) {
         event.preventDefault();
-        guardarNuevaPassword(identificador);
+        guardarNuevaPassword(objeto);
     });
 
     boton.innerHTML = "Guardar";
     form.appendChild(boton);
     fondo.appendChild(contenido);
+}
+
+function pintaUsuarioRegistrado(objeto) {
+    var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:65%;");
+
+    var h2 = document.createElement("h2");
+    h2.innerHTML = "Perfil";
+    contenido.appendChild(h2);
+    var form = document.createElement("form");
+    form.setAttribute("action", "submit");
+    contenido.appendChild(form);
+
+    var divrow = document.createElement("div");
+    divrow.setAttribute("class", "row");
+    contenido.appendChild(divrow);
+    form.appendChild(divrow);
+
+    var divdos = document.createElement("div");
+    divdos.setAttribute("class", "col-sm-4");
+    divrow.appendChild(divdos);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "dni");
+    label.innerHTML = "DNI";
+    divdos.appendChild(label);
+
+    var inputDNI = document.createElement("input");
+    inputDNI.setAttribute("type", "text");
+    inputDNI.setAttribute("class", "form-control");
+    inputDNI.setAttribute("id", "dni");
+    inputDNI.setAttribute("placeholder", "12345678X");
+    inputDNI.setAttribute("name", "dni");
+    inputDNI.disabled = true;
+    inputDNI.setAttribute("value", objeto["dni"]);
+
+    divdos.appendChild(inputDNI);
+    form.appendChild(divrow);
+
+    var divtres = document.createElement("div");
+    divtres.setAttribute("class", "col-sm-4");
+    divrow.appendChild(divtres);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "name");
+    label.innerHTML = "Nombre";
+    divtres.appendChild(label);
+    var inputN = document.createElement("input");
+    inputN.setAttribute("type", "text");
+    inputN.setAttribute("class", "form-control");
+    inputN.setAttribute("id", "name");
+    inputN.setAttribute("placeholder", "EJ: Borja");
+    inputN.setAttribute("name", "name");
+    inputN.setAttribute("value", objeto["nombre"]);
+    divtres.appendChild(inputN);
+    form.appendChild(divrow);
+
+    var divcuatro = document.createElement("div");
+    divcuatro.setAttribute("class", "col-sm-4");
+    divrow.appendChild(divcuatro);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "apellidos");
+    label.innerHTML = "Apellidos";
+    divcuatro.appendChild(label);
+    var inputA = document.createElement("input");
+    inputA.setAttribute("type", "text");
+    inputA.setAttribute("class", "form-control");
+    inputA.setAttribute("id", "apellidos");
+    inputA.setAttribute("placeholder", "Ej: Mateo Leon");
+    inputA.setAttribute("name", "apellidos");
+    inputA.setAttribute("value", objeto["apellidos"]);
+    divcuatro.appendChild(inputA);
+    form.appendChild(divrow);
+
+    var divrow2 = document.createElement("div");
+    divrow2.setAttribute("class", "row");
+    contenido.appendChild(divrow2);
+    form.appendChild(divrow2);
+
+    var divcinco = document.createElement("div");
+    divcinco.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divcinco);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "email");
+    label.innerHTML = "Email";
+    divcinco.appendChild(label);
+    var inputE = document.createElement("input");
+    inputE.setAttribute("type", "email");
+    inputE.setAttribute("class", "form-control");
+    inputE.setAttribute("id", "email");
+    inputE.setAttribute("placeholder", "ejemplo@ejemplo.com");
+    inputE.setAttribute("name", "email");
+    inputE.setAttribute("value", objeto["email"]);
+    divcinco.appendChild(inputE);
+    form.appendChild(divrow2);
+
+    var divseis = document.createElement("div");
+    divseis.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divseis);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "direccion");
+    label.innerHTML = "Direccion";
+    divseis.appendChild(label);
+    var inputD = document.createElement("input");
+    inputD.setAttribute("type", "text");
+    inputD.setAttribute("class", "form-control");
+    inputD.setAttribute("id", "direccion");
+    inputD.setAttribute("placeholder", "c/ejemplo");
+    inputD.setAttribute("name", "direccion");
+    inputD.setAttribute("value", objeto["residencia"]);
+    divseis.appendChild(inputD);
+    form.appendChild(divrow2);
+
+    var divrow3 = document.createElement("div");
+    divrow3.setAttribute("class", "row");
+    divrow3.setAttribute("style", "margin-top: 5px;");
+    contenido.appendChild(divrow3);
+    form.appendChild(divrow3);
+
+    var divsiete = document.createElement("div");
+    divsiete.setAttribute("class", "col-sm-4");
+    divrow3.appendChild(divsiete);
+
+    var bCursos = document.createElement("button");
+    bCursos.setAttribute("class", "btn btn-link");
+    bCursos.innerHTML = "Añadir Estudios";
+    bCursos.addEventListener("click", function (event) {
+        event.preventDefault();
+        pintaAnadirEstudios(form);
+    });
+
+    divsiete.appendChild(bCursos);
+    form.appendChild(divrow3);
+
+    var divoxo = document.createElement("div");
+    divoxo.setAttribute("class", "col-sm-4");
+    divrow3.appendChild(divoxo);
+
+    var bExpe = document.createElement("button");
+    bExpe.setAttribute("class", "btn btn-link");
+    bExpe.innerHTML = "Añadir Experiencia";
+    bExpe.addEventListener("click", function (event) {
+        event.preventDefault();
+        pintaAnadirExperiencia(form);
+
+    });
+
+    divoxo.appendChild(bExpe);
+    divrow3.appendChild(divoxo);
+
+    var divnue = document.createElement("div");
+    divnue.setAttribute("class", "col-sm-4");
+    divrow3.appendChild(divnue);
+
+    var bCur = document.createElement("button");
+    bCur.setAttribute("class", "btn btn-link");
+    bCur.innerHTML = "Añadir Cursos";
+    bCur.addEventListener("click", function (event) {
+        event.preventDefault();
+        pintaAnadirCursos(form);
+
+    });
+
+    divnue.appendChild(bCur);
+    divrow3.appendChild(divnue);
+
+    var divboton = document.createElement("div");
+    divboton.setAttribute("class", "row");
+    divboton.setAttribute("style", "margin-top: 5px");
+    contenido.appendChild(divboton);
+
+    var col = document.createElement("div");
+    col.setAttribute("class", "col");
+    //divboton.setAttribute("style", "margin-top: 5px");
+    divboton.appendChild(col);
+
+
+    var boton = document.createElement("button");
+    boton.setAttribute("class", "btn btn-primary");//float-right
+    boton.setAttribute("style", "width:30%;");
+    boton.addEventListener("click", function (event) {
+        event.preventDefault();
+        actualizarAlumno();
+
+    });
+
+    boton.innerHTML = "Actualizar Perfil";
+    col.appendChild(boton);
+    form.appendChild(divboton);
+    fondo.appendChild(contenido);
+}
+
+function actualizarAlumno() {
+    var dni = document.getElementById("dni").value;
+    var nombre = document.getElementById("name").value;
+    var apellidos = document.getElementById("apellidos").value;
+    var direccion = document.getElementById("direccion").value;
+    var email = document.getElementById("email").value;
+
+    //cursos
+    insertaCurso(dni);
+
+    //estudios
+    insertaEstudios(dni);
+
+    //experiencia
+    insertaExperiencia(dni);
+
+    var objetoUsuario = {'dni': dni, 'nombre': nombre, 'apellidos': apellidos, 
+    'direccion': direccion, 'email': email};
+    var json = JSON.stringify(objetoUsuario);
+    objetoAjax = ObjetoAjax();
+    objetoAjax.open('GET', "php/updateAlumno.php?json=" + json);
+    objetoAjax.send();
+    objetoAjax.onreadystatechange = function () {
+        if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+            var datos = objetoAjax.responseText;
+            var objeto = JSON.parse(datos);
+            alert("Datos Actualizados Correctamente");
+        }
+    }
+
 }

@@ -332,11 +332,10 @@ function pintaSolicitarEmpleo(objeto) {
     divcuatro.appendChild(label);
 
     var inputA = document.createElement("input");
-    inputA.innerHTML = "Disponibilidad para viajar"
     inputA.setAttribute("type", "checkbox");
     inputA.setAttribute("class", "form-control");
-    inputA.setAttribute("id", "viajar");
-    inputA.setAttribute("name", "viajar");
+    inputA.setAttribute("id", "cambiarresidencia");
+    inputA.setAttribute("name", "cambiarresidencia");
     divcuatro.appendChild(inputA);
     form.appendChild(divrow);
 
@@ -350,15 +349,15 @@ function pintaSolicitarEmpleo(objeto) {
     divrow2.appendChild(divcinco);
 
     var label = document.createElement("label");
-    label.setAttribute("for", "experiencia");
+    label.setAttribute("for", "pviajar");
     label.innerHTML = "Posibilidad Viajar";
     divcinco.appendChild(label);
 
     var inputE = document.createElement("input");
     inputE.setAttribute("type", "checkbox");
     inputE.setAttribute("class", "form-control");
-    inputE.setAttribute("id", "cambiarresidencia");
-    inputE.setAttribute("name", "cambiarresidencia");
+    inputE.setAttribute("id", "viajar");
+    inputE.setAttribute("name", "viajar");
 
     divcinco.appendChild(inputE);
     form.appendChild(divrow2);    
@@ -371,7 +370,6 @@ function pintaSolicitarEmpleo(objeto) {
     var col = document.createElement("div");
     col.setAttribute("class", "col");
     divboton.appendChild(col);
-
 
     var boton = document.createElement("button");
     boton.setAttribute("class", "btn btn-primary");//float-right
@@ -393,10 +391,11 @@ function pintaSolicitarEmpleo(objeto) {
 function buscarAlumnos() {
     var perfil = document.getElementById("perfil").value;
     var experiencia = document.getElementById("experiencia").value;
-    var cambiarResidencia = document.getElementById("cambiarresidencia").value;
-    var posibilidadViajar = document.getElementById("viajar").value;
+    var cambiarResidencia = document.getElementById("cambiarresidencia").checked;
+    var posibilidadViajar = document.getElementById("viajar").checked;
 
     var objetoSolicitud = {'perfil': perfil, 'experiencia': experiencia, 'cambiarResidencia': cambiarResidencia, 'posibilidadViajar': posibilidadViajar};
+
     var json = JSON.stringify(objetoSolicitud);
     objetoAjax = ObjetoAjax();
     objetoAjax.open('GET', "php/getAlumnosPerfil.php?json=" + json);
@@ -405,12 +404,15 @@ function buscarAlumnos() {
         if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
             var datos = objetoAjax.responseText;
             var objeto = JSON.parse(datos);
-            alert("alumnos encontrados: " + objeto.length);
+            if(objeto == 0){
+                alert("No hay alumnos disponibles para estas condiciones de busqueda");
+            }else{
+                listadoAlumnos(objeto);
+            }
+            
             
         }
     }
-
-
 
 }
 
@@ -520,4 +522,145 @@ function pideCambioContraseñaEmp(identificador) {
     boton.innerHTML = "Guardar";
     form.appendChild(boton);
     fondo.appendChild(contenido);
+}
+
+function listadoAlumnos(objeto) {
+
+    //var fondo = document.getElementById("fondo");
+    //limpiarPantalla(fondo);
+
+    var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:80%;");
+
+    var h2 = document.createElement("h3");
+    h2.innerHTML = "Alumnos encontrados";
+    contenido.appendChild(h2);
+
+    var tabla = document.createElement("table");
+    tabla.setAttribute("class", "table");
+
+    var thead = document.createElement("thead");
+    thead.setAttribute("class", "thead-dark");
+
+    var tblBody = document.createElement("tbody");
+
+    var cab = document.createElement("tr");
+
+    var cab1 = document.createElement("th");
+    var texto1 = document.createTextNode("DNI");
+    cab1.appendChild(texto1);
+    cab.appendChild(cab1);
+
+    var cab2 = document.createElement("th");
+    var texto2 = document.createTextNode("NOMBRE");
+    cab2.appendChild(texto2);
+    cab.appendChild(cab2);
+
+    var cab3 = document.createElement("th");
+    var texto3 = document.createTextNode("APELLIDOS");
+    cab3.appendChild(texto3);
+    cab.appendChild(cab3);
+
+    var cab4 = document.createElement("th");
+    var texto4 = document.createTextNode("EMAIL");
+    cab4.appendChild(texto4);
+    cab.appendChild(cab4);
+
+    var cab5 = document.createElement("th");
+    var texto5 = document.createTextNode("DIRECCION");
+    cab5.appendChild(texto5);
+    cab.appendChild(cab5);
+    tblBody.appendChild(cab);
+
+
+    for (var i = 0; i < objeto.length; i++) {
+        var hilera = document.createElement("tr");
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto[i]["dni"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto[i]["nombre"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto[i]["apellidos"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto[i]["email"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto[i]["residencia"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+        
+        tblBody.appendChild(hilera);
+    }
+
+    tabla.appendChild(tblBody);
+    contenido.appendChild(tabla);
+    tabla.setAttribute("border", "2");
+    fondo.appendChild(contenido);
+
+    var boton = document.createElement("button");
+    boton.setAttribute("class", "btn btn-success");
+    boton.setAttribute("style", "width:20%;");
+    boton.addEventListener("click", function (event) {
+        event.preventDefault();
+        generaPDF(objeto, "ver");
+
+    });
+
+    boton.innerHTML = "Ver PDF";
+    contenido.appendChild(boton);
+    fondo.appendChild(contenido);
+
+    var boton = document.createElement("button");
+    boton.setAttribute("class", "btn btn-success");
+    boton.setAttribute("style", "width:20%; margin-left: 20px;");
+    boton.addEventListener("click", function (event) {
+        event.preventDefault();
+        generaPDF(objeto, "descargar");
+
+    });
+
+    boton.innerHTML = "Descargar PDF";
+    contenido.appendChild(boton);
+    fondo.appendChild(contenido);
+
+
+}
+
+function generaPDF(objeto, opcion) {
+    var doc = new jsPDF();
+
+    doc.setTextColor(100);
+    doc.text(20, 50, 'Listado de Alumnos');
+
+    for (var i = 0; i < objeto.length; i++) {
+        doc.setTextColor(100);
+        doc.text(20, 20, objeto[i]["dni"] + " " + objeto[i]["nombre"] + " " + objeto[i]["apellidos"])
+    }
+
+    if(opcion=="ver") {
+        var string = doc.output('datauri');
+       
+        var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+        var x = window.open();
+        x.document.open();
+        x.document.write(iframe);
+        x.document.close();
+    }else{
+        doc.save();
+    }
+
 }
