@@ -12,10 +12,10 @@ function pintaCrearUsuario(alumno) {
     contenido.setAttribute("style", "width:65%;");
 
     var h2 = document.createElement("h2");
-    h2.innerHTML = "Crear Perfil";
+    var texto = document.createTextNode("Crear Perfil");
+    h2.appendChild(texto);
     contenido.appendChild(h2);
     var form = document.createElement("form");
-    form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
     var divrow = document.createElement("div");
@@ -29,7 +29,8 @@ function pintaCrearUsuario(alumno) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "dni");
-    label.innerHTML = "DNI";
+    var texto = document.createTextNode("DNI");
+    label.appendChild(texto);
     divdos.appendChild(label);
 
     var inputDNI = document.createElement("input");
@@ -50,7 +51,8 @@ function pintaCrearUsuario(alumno) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "name");
-    label.innerHTML = "Nombre";
+    var texto = document.createTextNode("Nombre");
+    label.appendChild(texto);
     divtres.appendChild(label);
     var inputN = document.createElement("input");
     inputN.setAttribute("type", "text");
@@ -68,7 +70,8 @@ function pintaCrearUsuario(alumno) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "apellidos");
-    label.innerHTML = "Apellidos";
+    var texto = document.createTextNode("Apellidos");
+    label.appendChild(texto);
     divcuatro.appendChild(label);
     var inputA = document.createElement("input");
     inputA.setAttribute("type", "text");
@@ -91,7 +94,8 @@ function pintaCrearUsuario(alumno) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "email");
-    label.innerHTML = "Email";
+    var texto = document.createTextNode("Email");
+    label.appendChild(texto);
     divcinco.appendChild(label);
     var inputE = document.createElement("input");
     inputE.setAttribute("type", "email");
@@ -109,7 +113,8 @@ function pintaCrearUsuario(alumno) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "direccion");
-    label.innerHTML = "Direccion";
+    var texto = document.createTextNode("Direccion");
+    label.appendChild(texto);
     divseis.appendChild(label);
     var inputD = document.createElement("input");
     inputD.setAttribute("type", "text");
@@ -120,6 +125,60 @@ function pintaCrearUsuario(alumno) {
     inputD.setAttribute("value", alumno[0]["residencia"]);
     divseis.appendChild(inputD);
     form.appendChild(divrow2);
+
+    var divseis = document.createElement("div");
+    divseis.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divseis);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "telefono");
+    var texto = document.createTextNode("Telefono");
+    label.appendChild(texto);
+    divseis.appendChild(label);
+    var inputD = document.createElement("input");
+    inputD.setAttribute("type", "text");
+    inputD.setAttribute("class", "form-control");
+    inputD.setAttribute("id", "telefono");
+    inputD.setAttribute("placeholder", "6666666");
+    inputD.setAttribute("name", "telefono");
+    inputD.setAttribute("value", alumno[0]["telefono"]);
+    divseis.appendChild(inputD);
+    form.appendChild(divrow2);
+
+    var divseis = document.createElement("div");
+    divseis.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divseis);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "viajar");
+    var texto = document.createTextNode("Posibilidad Viajar");
+    label.appendChild(texto);
+    divseis.appendChild(label);
+    var inputD = document.createElement("input");
+    inputD.setAttribute("type", "checkbox");
+    inputD.setAttribute("class", "form-control");
+    inputD.setAttribute("id", "viajar");
+    inputD.setAttribute("name", "viajar");
+    divseis.appendChild(inputD);
+    form.appendChild(divrow2);
+
+    var divseis = document.createElement("div");
+    divseis.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divseis);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "Cambio de Residencia");
+    var texto = document.createTextNode("Cambio de Residencia");
+    label.appendChild(texto);
+    divseis.appendChild(label);
+    var inputD = document.createElement("input");
+    inputD.setAttribute("type", "checkbox");
+    inputD.setAttribute("class", "form-control");
+    inputD.setAttribute("id", "cresidencia");
+    inputD.setAttribute("name", "cresidencia");
+    divseis.appendChild(inputD);
+    form.appendChild(divrow2);
+
 
     var divrow3 = document.createElement("div");
     divrow3.setAttribute("class", "row");
@@ -133,7 +192,8 @@ function pintaCrearUsuario(alumno) {
 
     var bCursos = document.createElement("button");
     bCursos.setAttribute("class", "btn btn-link");
-    bCursos.innerHTML = "Añadir Estudios";
+    var texto = document.createTextNode("Añadir Estudios");
+    bCursos.appendChild(texto);
     bCursos.addEventListener("click", function (event) {
         event.preventDefault();
         pintaAnadirEstudios(form);
@@ -148,7 +208,8 @@ function pintaCrearUsuario(alumno) {
 
     var bExpe = document.createElement("button");
     bExpe.setAttribute("class", "btn btn-link");
-    bExpe.innerHTML = "Añadir Experiencia";
+    var texto = document.createTextNode("Añadir Experiencia");
+    bExpe.appendChild(texto);
     bExpe.addEventListener("click", function (event) {
         event.preventDefault();
         pintaAnadirExperiencia(form);
@@ -164,7 +225,8 @@ function pintaCrearUsuario(alumno) {
 
     var bCur = document.createElement("button");
     bCur.setAttribute("class", "btn btn-link");
-    bCur.innerHTML = "Añadir Cursos";
+    var texto = document.createTextNode("Añadir Cursos");
+    bCur.appendChild(texto);
     bCur.addEventListener("click", function (event) {
         event.preventDefault();
         pintaAnadirCursos(form);
@@ -181,7 +243,6 @@ function pintaCrearUsuario(alumno) {
 
     var col = document.createElement("div");
     col.setAttribute("class", "col");
-    //divboton.setAttribute("style", "margin-top: 5px");
     divboton.appendChild(col);
 
 
@@ -194,7 +255,8 @@ function pintaCrearUsuario(alumno) {
 
     });
 
-    boton.innerHTML = "Crear Perfil";
+    var texto = document.createTextNode("Crear Perfil");
+    boton.appendChild(texto);
     col.appendChild(boton);
     form.appendChild(divboton);
     fondo.appendChild(contenido);
@@ -209,10 +271,10 @@ function pintaAnadirCursos(form) {
     contenido.setAttribute("style", "width:65%; overflow: auto;");
 
     var h4 = document.createElement("h4");
-    h4.innerHTML = "Cursos";
+    var texto = document.createTextNode("Cursos");
+    h4.appendChild(texto);
     contenido.appendChild(h4);
     var form = document.createElement("form");
-    form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
     var divdos = document.createElement("div");
@@ -221,7 +283,8 @@ function pintaAnadirCursos(form) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "trabajo");
-    label.innerHTML = "Curso";
+    var texto = document.createTextNode("Curso");
+    label.appendChild(texto);
     divdos.appendChild(label);
 
     var inputD = document.createElement("input");
@@ -241,7 +304,8 @@ function pintaAnadirCursos(form) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "perfil");
-    label.innerHTML = "Perfil";
+    var texto = document.createTextNode("Perfil");
+    label.appendChild(texto);
     divtres.appendChild(label);
 
     var inputD = document.createElement("input");
@@ -262,7 +326,8 @@ function pintaAnadirCursos(form) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "perfil");
-    label.innerHTML = "Horas";
+    var texto = document.createTextNode("Horas");
+    label.appendChild(texto);
     divcuatro.appendChild(label);
 
     var inputD = document.createElement("input");
@@ -290,10 +355,10 @@ function pintaAnadirExperiencia(form) {
     contenido.setAttribute("style", "width:65%; overflow: auto;");
 
     var h4 = document.createElement("h4");
-    h4.innerHTML = "Experiencia";
+    var texto = document.createTextNode("Experiencia");
+    h4.appendChild(texto);
     contenido.appendChild(h4);
     var form = document.createElement("form");
-    form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
     var divdos = document.createElement("div");
@@ -302,7 +367,8 @@ function pintaAnadirExperiencia(form) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "trabajo");
-    label.innerHTML = "Trabajo";
+    var texto = document.createTextNode("Trabajo");
+    label.appendChild(texto);
     divdos.appendChild(label);
 
     var inputD = document.createElement("input");
@@ -322,7 +388,8 @@ function pintaAnadirExperiencia(form) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "empresal");
-    label.innerHTML = "Empresa";
+    var texto = document.createTextNode("Empresa");
+    label.appendChild(texto);
     divtres.appendChild(label);
 
     var inputD = document.createElement("input");
@@ -343,7 +410,8 @@ function pintaAnadirExperiencia(form) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "perfil");
-    label.innerHTML = "Meses experiencia";
+    var texto = document.createTextNode("Meses Experiencia");
+    label.appendChild(texto);
     divcuatro.appendChild(label);
 
     var inputD = document.createElement("input");
@@ -373,10 +441,10 @@ function pintaAnadirEstudios(form) {
     contenido.setAttribute("style", "width:65%;");
 
     var h4 = document.createElement("h4");
-    h4.innerHTML = "Estudios";
+    var texto = document.createTextNode("Estudios");
+    h4.appendChild(texto);
     contenido.appendChild(h4);
     var form = document.createElement("form");
-    form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
     var inputD = document.createElement("select");
@@ -402,7 +470,6 @@ function pintaAnadirEstudios(form) {
                 inputD.setAttribute("class", "form-control");
                 inputD.setAttribute("id", "estudios"+numeroEstudios);
                 inputD.setAttribute("name", "estudios"+numeroEstudios);
-                //div.appendChild(inputD);
                 numeroEstudios++;
 
                 form.appendChild(inputD);
@@ -424,6 +491,9 @@ function insertaUsuarioBD() {
     var apellidos = document.getElementById("apellidos").value;
     var direccion = document.getElementById("direccion").value;
     var email = document.getElementById("email").value;
+    var telefono = document.getElementById("telefono").value;
+    var disponibilidadViajar = document.getElementById("viajar").checked;
+    var cambioResidencia = document.getElementById("cresidencia").checked;
 
     //cursos
     insertaCurso(dni);
@@ -434,7 +504,10 @@ function insertaUsuarioBD() {
     //experiencia
     insertaExperiencia(dni);
 
-    var objetoUsuario = {'dni': dni, 'nombre': nombre, 'apellidos': apellidos, 'direccion': direccion, 'email': email, 'password': generaPassword()};
+    var objetoUsuario = {'dni': dni, 'nombre': nombre, 'apellidos': apellidos,
+     'direccion': direccion, 'email': email, 'password': generaPassword(), 'telefono': telefono, 'posibilidadViajar': disponibilidadViajar,
+     'cambioResidencia': cambioResidencia};
+
     var json = JSON.stringify(objetoUsuario);
     objetoAjax = ObjetoAjax();
     objetoAjax.open('GET', "php/setAlumno.php?json=" + json);
@@ -527,15 +600,16 @@ function pintaBuscarDNI() {
     contenido.setAttribute("style", "width:25%;");
 
     var h2 = document.createElement("h2");
-    h2.innerHTML = "Buscar DNI";
+    var texto = document.createTextNode("Buscar DNI");
+    h2.appendChild(texto);
     contenido.appendChild(h2);
     var form = document.createElement("form");
-    form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
     var label = document.createElement("label");
     label.setAttribute("for", "dni");
-    label.innerHTML = "DNI";
+    var texto = document.createTextNode("DNI");
+    label.appendChild(texto);
     form.appendChild(label);
 
     var input = document.createElement("input");
@@ -556,7 +630,8 @@ function pintaBuscarDNI() {
 
     });
 
-    boton.innerHTML = "Buscar";
+    var texto = document.createTextNode("Buscar");
+    boton.appendChild(texto);
     form.appendChild(boton);
     fondo.appendChild(contenido);
 
@@ -564,7 +639,6 @@ function pintaBuscarDNI() {
 
 function buscaDNI() {
 	var dni = document.getElementById("dni").value;
-	//var dniJ = JSON.stringify(dni);
     objetoAjax = ObjetoAjax();
     objetoAjax.open('GET', "php/getAlumno.php?dni=" + dni);
     objetoAjax.send();
@@ -596,16 +670,17 @@ function iniciarSesionSolicitante() {
     contenido.setAttribute("style", "width:25%;");
 
     var h2 = document.createElement("h2");
-    h2.innerHTML = "Iniciar Sesion";
+    var texto = document.createTextNode("Iniciar Sesion");
+    h2.appendChild(texto);
     contenido.appendChild(h2);
     var form = document.createElement("form");
-    form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
     //dni
     var label = document.createElement("label");
     label.setAttribute("for", "dni");
-    label.innerHTML = "DNI";
+    var texto = document.createTextNode("DNI");
+    label.appendChild(texto);
     form.appendChild(label);
 
     var input = document.createElement("input");
@@ -620,7 +695,8 @@ function iniciarSesionSolicitante() {
 //contraseña
     var label = document.createElement("label");
     label.setAttribute("for", "password");
-    label.innerHTML = "Contraseña";
+    var texto = document.createTextNode("Contraseña");
+    label.appendChild(texto);
     form.appendChild(label);
 
     var inputP = document.createElement("input");
@@ -639,7 +715,8 @@ function iniciarSesionSolicitante() {
         iniciaSesion();
     });
 
-    boton.innerHTML = "Entrar";
+    var texto = document.createTextNode("Entrar");
+    boton.appendChild(texto);
     form.appendChild(boton);
     fondo.appendChild(contenido);
 }
@@ -713,16 +790,17 @@ function pideCambioContraseña(objeto) {
     contenido.setAttribute("style", "width:25%;");
 
     var h2 = document.createElement("h2");
-    h2.innerHTML = "Contraseña Nueva";
+    var texto = document.createTextNode("Contraseña Nueva");
+    h2.appendChild(texto);
     contenido.appendChild(h2);
     var form = document.createElement("form");
-    form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
     //pass 1
     var label = document.createElement("label");
     label.setAttribute("for", "passnueva1");
-    label.innerHTML = "Contraseña";
+    var texto = document.createTextNode("Contraseña");
+    label.appendChild(texto);
     form.appendChild(label);
 
     var input = document.createElement("input");
@@ -736,7 +814,8 @@ function pideCambioContraseña(objeto) {
     //pass 2
     var label = document.createElement("label");
     label.setAttribute("for", "passnueva2");
-    label.innerHTML = "Confirmar Contraseña";
+    var texto = document.createTextNode("Confirmar Contraseña");
+    label.appendChild(texto);
     form.appendChild(label);
 
     var inputP = document.createElement("input");
@@ -755,7 +834,8 @@ function pideCambioContraseña(objeto) {
         guardarNuevaPassword(objeto);
     });
 
-    boton.innerHTML = "Guardar";
+    var texto = document.createTextNode("Guardar");
+    boton.appendChild(texto);
     form.appendChild(boton);
     fondo.appendChild(contenido);
 }
@@ -767,10 +847,10 @@ function pintaUsuarioRegistrado(objeto) {
     contenido.setAttribute("style", "width:65%;");
 
     var h2 = document.createElement("h2");
-    h2.innerHTML = "Perfil";
+    var texto = document.createTextNode("Perfil");
+    h2.appendChild(texto);
     contenido.appendChild(h2);
     var form = document.createElement("form");
-    form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
     var divrow = document.createElement("div");
@@ -784,7 +864,8 @@ function pintaUsuarioRegistrado(objeto) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "dni");
-    label.innerHTML = "DNI";
+    var texto = document.createTextNode("DNI");
+    label.appendChild(texto);
     divdos.appendChild(label);
 
     var inputDNI = document.createElement("input");
@@ -805,7 +886,8 @@ function pintaUsuarioRegistrado(objeto) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "name");
-    label.innerHTML = "Nombre";
+    var texto = document.createTextNode("Nombre");
+    label.appendChild(texto);
     divtres.appendChild(label);
     var inputN = document.createElement("input");
     inputN.setAttribute("type", "text");
@@ -823,7 +905,8 @@ function pintaUsuarioRegistrado(objeto) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "apellidos");
-    label.innerHTML = "Apellidos";
+    var texto = document.createTextNode("Apellidos");
+    label.appendChild(texto);
     divcuatro.appendChild(label);
     var inputA = document.createElement("input");
     inputA.setAttribute("type", "text");
@@ -846,7 +929,8 @@ function pintaUsuarioRegistrado(objeto) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "email");
-    label.innerHTML = "Email";
+    var texto = document.createTextNode("Email");
+    label.appendChild(texto);
     divcinco.appendChild(label);
     var inputE = document.createElement("input");
     inputE.setAttribute("type", "email");
@@ -864,7 +948,8 @@ function pintaUsuarioRegistrado(objeto) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "direccion");
-    label.innerHTML = "Direccion";
+    var texto = document.createTextNode("Direccion");
+    label.appendChild(texto);
     divseis.appendChild(label);
     var inputD = document.createElement("input");
     inputD.setAttribute("type", "text");
@@ -873,6 +958,69 @@ function pintaUsuarioRegistrado(objeto) {
     inputD.setAttribute("placeholder", "c/ejemplo");
     inputD.setAttribute("name", "direccion");
     inputD.setAttribute("value", objeto["residencia"]);
+    divseis.appendChild(inputD);
+    form.appendChild(divrow2);
+
+    var divseis = document.createElement("div");
+    divseis.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divseis);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "telefono");
+    var texto = document.createTextNode("Telefono");
+    label.appendChild(texto);
+    divseis.appendChild(label);
+    var inputD = document.createElement("input");
+    inputD.setAttribute("type", "text");
+    inputD.setAttribute("class", "form-control");
+    inputD.setAttribute("id", "telefono");
+    inputD.setAttribute("placeholder", "6666666");
+    inputD.setAttribute("name", "telefono");
+    inputD.setAttribute("value", objeto["telefono"]);
+    divseis.appendChild(inputD);
+    form.appendChild(divrow2);
+
+    var divseis = document.createElement("div");
+    divseis.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divseis);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "viajar");
+    var texto = document.createTextNode("Posibilidad Viajar");
+    label.appendChild(texto);
+    divseis.appendChild(label);
+    var inputD = document.createElement("input");
+    inputD.setAttribute("type", "checkbox");
+    inputD.setAttribute("class", "form-control");
+    inputD.setAttribute("id", "viajar");
+    inputD.setAttribute("name", "viajar");
+    if(objeto["disponibilidadViajar"] == "true") {
+        inputD.checked = true;
+    }else{
+        inputD.checked = false;
+    }
+    divseis.appendChild(inputD);
+    form.appendChild(divrow2);
+
+    var divseis = document.createElement("div");
+    divseis.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divseis);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "Cambio de Residencia");
+    var texto = document.createTextNode("Cambio de Residencia");
+    label.appendChild(texto);
+    divseis.appendChild(label);
+    var inputD = document.createElement("input");
+    inputD.setAttribute("type", "checkbox");
+    inputD.setAttribute("class", "form-control");
+    inputD.setAttribute("id", "cresidencia");
+    inputD.setAttribute("name", "cresidencia");
+    if(objeto["cambioResidencia"] == "true") {
+        inputD.checked = true;
+    }else{
+        inputD.checked = false;
+    }
     divseis.appendChild(inputD);
     form.appendChild(divrow2);
 
@@ -888,7 +1036,8 @@ function pintaUsuarioRegistrado(objeto) {
 
     var bCursos = document.createElement("button");
     bCursos.setAttribute("class", "btn btn-link");
-    bCursos.innerHTML = "Añadir Estudios";
+    var texto = document.createTextNode("Añadir Estudios");
+    bCursos.appendChild(texto);
     bCursos.addEventListener("click", function (event) {
         event.preventDefault();
         pintaAnadirEstudios(form);
@@ -903,7 +1052,8 @@ function pintaUsuarioRegistrado(objeto) {
 
     var bExpe = document.createElement("button");
     bExpe.setAttribute("class", "btn btn-link");
-    bExpe.innerHTML = "Añadir Experiencia";
+    var texto = document.createTextNode("Añadir Experiencia");
+    bExpe.appendChild(texto);
     bExpe.addEventListener("click", function (event) {
         event.preventDefault();
         pintaAnadirExperiencia(form);
@@ -919,7 +1069,8 @@ function pintaUsuarioRegistrado(objeto) {
 
     var bCur = document.createElement("button");
     bCur.setAttribute("class", "btn btn-link");
-    bCur.innerHTML = "Añadir Cursos";
+    var texto = document.createTextNode("Añadir Cursos");
+    bCur.appendChild(texto);
     bCur.addEventListener("click", function (event) {
         event.preventDefault();
         pintaAnadirCursos(form);
@@ -949,7 +1100,8 @@ function pintaUsuarioRegistrado(objeto) {
 
     });
 
-    boton.innerHTML = "Actualizar Perfil";
+    var texto = document.createTextNode("Actualizar Perfil");
+    boton.appendChild(texto);
     col.appendChild(boton);
     form.appendChild(divboton);
     fondo.appendChild(contenido);
@@ -961,6 +1113,10 @@ function actualizarAlumno() {
     var apellidos = document.getElementById("apellidos").value;
     var direccion = document.getElementById("direccion").value;
     var email = document.getElementById("email").value;
+    var telefono = document.getElementById("telefono").value;
+    var disponibilidadViajar = document.getElementById("viajar").checked;
+    var cambioResidencia = document.getElementById("cresidencia").checked;
+
 
     //cursos
     insertaCurso(dni);
@@ -972,7 +1128,9 @@ function actualizarAlumno() {
     insertaExperiencia(dni);
 
     var objetoUsuario = {'dni': dni, 'nombre': nombre, 'apellidos': apellidos, 
-    'direccion': direccion, 'email': email};
+    'direccion': direccion, 'email': email, 'telefono': telefono, 'disponibilidadViajar': disponibilidadViajar,
+     'cambioResidencia': cambioResidencia};
+
     var json = JSON.stringify(objetoUsuario);
     objetoAjax = ObjetoAjax();
     objetoAjax.open('GET', "php/updateAlumno.php?json=" + json);

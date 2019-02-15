@@ -8,8 +8,20 @@ global $conn;
 
 $alumno = json_decode($_REQUEST['json']);
 
-$sql = "INSERT INTO alumno_bolsa (dni, nombre, apellidos, email, residencia, password) VALUES ('" . $alumno->dni . "', '" . $alumno->nombre . "', '" . $alumno->apellidos . "'
-,'" . $alumno->email . "', '" . $alumno->direccion . "', '" . $alumno->password . "');";
+if($alumno->posibilidadViajar == 1) {
+    $viajar = "true";
+}else{
+    $viajar = "false";
+}
+
+if($alumno->cambiarResidencia == 1) {
+    $residencia = "true";
+}else{
+    $residencia = "false";
+}
+
+$sql = "INSERT INTO alumno_bolsa (dni, nombre, apellidos, email, residencia, password, disponibilidadViajar, cambioResidencia, telefono) VALUES ('" . $alumno->dni . "', '" . $alumno->nombre . "', '" . $alumno->apellidos . "'
+,'" . $alumno->email . "', '" . $alumno->direccion . "', '" . $alumno->password . "', '" . $viajar . "', '" . $residencia ."', '" . $alumno->telefono . "'');";
 $resultado = $conn->query($sql);
 
 if($resultado) {

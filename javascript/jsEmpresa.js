@@ -8,10 +8,10 @@ function pintaCrearEmpresa() {
     contenido.setAttribute("style", "width:65%;");
 
     var h2 = document.createElement("h2");
-    h2.innerHTML = "Crear Perfil Empresa";
+    var texto = document.createTextNode("Crear Perfil Empresa");
+    h2.appendChild(texto);
     contenido.appendChild(h2);
     var form = document.createElement("form");
-    form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
     var divrow = document.createElement("div");
@@ -25,7 +25,8 @@ function pintaCrearEmpresa() {
 
     var label = document.createElement("label");
     label.setAttribute("for", "cif");
-    label.innerHTML = "CIF";
+    var texto = document.createTextNode("CIF");
+    label.appendChild(texto);
     divdos.appendChild(label);
 
     var inputCIF = document.createElement("input");
@@ -44,7 +45,8 @@ function pintaCrearEmpresa() {
 
     var label = document.createElement("label");
     label.setAttribute("for", "name");
-    label.innerHTML = "Nombre";
+    var texto = document.createTextNode("Nombre");
+    label.appendChild(texto);
     divtres.appendChild(label);
     var inputN = document.createElement("input");
     inputN.setAttribute("type", "text");
@@ -61,7 +63,8 @@ function pintaCrearEmpresa() {
 
     var label = document.createElement("label");
     label.setAttribute("for", "telefono");
-    label.innerHTML = "Telefono";
+    var texto = document.createTextNode("Telefono");
+    label.appendChild(texto);
     divcuatro.appendChild(label);
     var inputA = document.createElement("input");
     inputA.setAttribute("type", "text");
@@ -83,7 +86,8 @@ function pintaCrearEmpresa() {
 
     var label = document.createElement("label");
     label.setAttribute("for", "email");
-    label.innerHTML = "Email";
+    var texto = document.createTextNode("Email");
+    label.appendChild(texto);
     divcinco.appendChild(label);
     var inputE = document.createElement("input");
     inputE.setAttribute("type", "email");
@@ -100,7 +104,8 @@ function pintaCrearEmpresa() {
 
     var label = document.createElement("label");
     label.setAttribute("for", "direccion");
-    label.innerHTML = "Direccion";
+    var texto = document.createTextNode("Direccion");
+    label.appendChild(texto);
     divseis.appendChild(label);
     var inputE = document.createElement("input");
     inputE.setAttribute("type", "text");
@@ -118,7 +123,8 @@ function pintaCrearEmpresa() {
 
     var label = document.createElement("label");
     label.setAttribute("for", "pcontacto");
-    label.innerHTML = "Persona Contacto";
+    var texto = document.createTextNode("Persona Contacto");
+    label.appendChild(texto);
     divsiete.appendChild(label);
     var inputE = document.createElement("input");
     inputE.setAttribute("type", "pcontacto");
@@ -147,7 +153,8 @@ function pintaCrearEmpresa() {
         insertarEmpresaBD();
     });
 
-    boton.innerHTML = "Crear Perfil Empresa";
+    var texto = document.createTextNode("Crear Perfil Empresa");
+    boton.appendChild(texto);
     col.appendChild(boton);
     form.appendChild(divboton);
     fondo.appendChild(contenido);
@@ -163,16 +170,17 @@ function pintaIniciarSesionEmpresa() {
     contenido.setAttribute("style", "width:25%;");
 
     var h2 = document.createElement("h2");
-    h2.innerHTML = "Iniciar Sesion Empresa";
+    var texto = document.createTextNode("Iniciar Sesion Empresa");
+    h2.appendChild(texto);
     contenido.appendChild(h2);
     var form = document.createElement("form");
-    form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
 //cif
     var label = document.createElement("label");
     label.setAttribute("for", "cif");
-    label.innerHTML = "CIF";
+    var texto = document.createTextNode("CIF");
+    label.appendChild(texto);
     form.appendChild(label);
 
     var input = document.createElement("input");
@@ -187,7 +195,8 @@ function pintaIniciarSesionEmpresa() {
 //contraseña
     var label = document.createElement("label");
     label.setAttribute("for", "password");
-    label.innerHTML = "Contraseña";
+    var texto = document.createTextNode("Contraseña");
+    label.appendChild(texto);
     form.appendChild(label);
 
     var input = document.createElement("input");
@@ -206,7 +215,8 @@ function pintaIniciarSesionEmpresa() {
         iniciaSesionEmpresa();
     });
 
-    boton.innerHTML = "Entrar";
+    var texto = document.createTextNode("Entrar");
+    boton.appendChild(texto);
     form.appendChild(boton);
     fondo.appendChild(contenido);
 }
@@ -232,9 +242,9 @@ function iniciaSesionEmpresa() {
                 if(objeto['temporal'] == "true") {
                     var fondo = document.getElementById("fondo");
                     limpiarPantalla(fondo);
-                    pideCambioContraseñaEmp(objeto['cif']);
+                    pideCambioContraseñaEmp(objeto['cif'], objeto['id']);
                 }else{
-                    dameCursos();
+                    dameCursos(objeto['id']);
                 }
                 
                 
@@ -244,7 +254,7 @@ function iniciaSesionEmpresa() {
     }
 }
 
-function dameCursos() {
+function dameCursos(idEmpresa) {
     //perfiles
     objetoAjax = ObjetoAjax();
     objetoAjax.open('GET', "php/getCursosCentro.php");
@@ -253,12 +263,12 @@ function dameCursos() {
         if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
             var datos = objetoAjax.responseText;
             var objeto = JSON.parse(datos);
-            pintaSolicitarEmpleo(objeto);
+            pintaSolicitarEmpleo(objeto, idEmpresa);
         }
     }
 }
 
-function pintaSolicitarEmpleo(objeto) {
+function pintaSolicitarEmpleo(objeto, idEmpresa) {
 
     var fondo = document.getElementById("fondo");
     limpiarPantalla(fondo);
@@ -269,10 +279,10 @@ function pintaSolicitarEmpleo(objeto) {
     contenido.setAttribute("style", "width:80%;");
 
     var h2 = document.createElement("h2");
-    h2.innerHTML = "Buscar Alumnos";
+    var texto = document.createTextNode("Buscar Alumnos");
+    h2.appendChild(texto);
     contenido.appendChild(h2);
     var form = document.createElement("form");
-    form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
     var divrow = document.createElement("div");
@@ -286,7 +296,8 @@ function pintaSolicitarEmpleo(objeto) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "dni");
-    label.innerHTML = "Perfil";
+    var texto = document.createTextNode("Perfil");
+    label.appendChild(texto);
     divdos.appendChild(label);
 
     var inputD = document.createElement("select");
@@ -311,7 +322,8 @@ function pintaSolicitarEmpleo(objeto) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "experiencia");
-    label.innerHTML = "Experiencia";
+    var texto = document.createTextNode("Experiencia");
+    label.appendChild(texto);
     divtres.appendChild(label);
     var inputN = document.createElement("input");
     inputN.setAttribute("type", "number");
@@ -328,7 +340,8 @@ function pintaSolicitarEmpleo(objeto) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "experiencia");
-    label.innerHTML = "Cambiar de residencia";
+    var texto = document.createTextNode("Cambiar Residencia");
+    label.appendChild(texto);
     divcuatro.appendChild(label);
 
     var inputA = document.createElement("input");
@@ -350,7 +363,8 @@ function pintaSolicitarEmpleo(objeto) {
 
     var label = document.createElement("label");
     label.setAttribute("for", "pviajar");
-    label.innerHTML = "Posibilidad Viajar";
+    var texto = document.createTextNode("Posibilidad Viajar");
+    label.appendChild(texto);
     divcinco.appendChild(label);
 
     var inputE = document.createElement("input");
@@ -376,11 +390,12 @@ function pintaSolicitarEmpleo(objeto) {
     boton.setAttribute("style", "width:30%;");
     boton.addEventListener("click", function (event) {
         event.preventDefault();
-        buscarAlumnos();
+        buscarAlumnos(idEmpresa);
 
     });
 
-    boton.innerHTML = "Buscar Alumnos";
+    var texto = document.createTextNode("Buscar Alumnos");
+    boton.appendChild(texto);
     col.appendChild(boton);
     form.appendChild(divboton);
     fondo.appendChild(contenido);
@@ -388,13 +403,14 @@ function pintaSolicitarEmpleo(objeto) {
 }
 
 
-function buscarAlumnos() {
+function buscarAlumnos(idEmpresa) {
     var perfil = document.getElementById("perfil").value;
     var experiencia = document.getElementById("experiencia").value;
     var cambiarResidencia = document.getElementById("cambiarresidencia").checked;
     var posibilidadViajar = document.getElementById("viajar").checked;
 
-    var objetoSolicitud = {'perfil': perfil, 'experiencia': experiencia, 'cambiarResidencia': cambiarResidencia, 'posibilidadViajar': posibilidadViajar};
+    var objetoSolicitud = {'perfil': perfil, 'experiencia': experiencia, 
+    'cambiarResidencia': cambiarResidencia, 'posibilidadViajar': posibilidadViajar, 'idEmpresa': idEmpresa};
 
     var json = JSON.stringify(objetoSolicitud);
     objetoAjax = ObjetoAjax();
@@ -446,7 +462,7 @@ function insertarEmpresaBD() {
 }
 
 
-function guardarNuevaPasswordEmp(identificador) {
+function guardarNuevaPasswordEmp(identificador, idEmpresa) {
     var pass1 = document.getElementById("passnueva1").value;
     var pass2 = document.getElementById("passnueva2").value;
 
@@ -458,7 +474,7 @@ function guardarNuevaPasswordEmp(identificador) {
         objetoAjax.send();
         objetoAjax.onreadystatechange = function () {
             if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
-                dameCursos();
+                dameCursos(idEmpresa);
             }
         }
     }else{
@@ -470,23 +486,24 @@ function guardarNuevaPasswordEmp(identificador) {
 }
 
 
-function pideCambioContraseñaEmp(identificador) {
+function pideCambioContraseñaEmp(identificador, idEmpresa) {
     var contenido = document.createElement("div");
 
     contenido.setAttribute("id", "contenido");
     contenido.setAttribute("style", "width:25%;");
 
     var h2 = document.createElement("h2");
-    h2.innerHTML = "Contraseña Nueva";
+    var texto = document.createTextNode("Contraseña Nueva");
+    h2.appendChild(texto);
     contenido.appendChild(h2);
     var form = document.createElement("form");
-    form.setAttribute("action", "submit");
     contenido.appendChild(form);
 
     //pass 1
     var label = document.createElement("label");
     label.setAttribute("for", "passnueva1");
-    label.innerHTML = "Contraseña";
+    var texto = document.createTextNode("Contraseña");
+    label.appendChild(texto);
     form.appendChild(label);
 
     var input = document.createElement("input");
@@ -500,7 +517,8 @@ function pideCambioContraseñaEmp(identificador) {
     //pass 2
     var label = document.createElement("label");
     label.setAttribute("for", "passnueva2");
-    label.innerHTML = "Confirmar Contraseña";
+    var texto = document.createTextNode("Confirmar Contraseña");
+    label.appendChild(texto);
     form.appendChild(label);
 
     var inputP = document.createElement("input");
@@ -516,18 +534,19 @@ function pideCambioContraseñaEmp(identificador) {
     boton.setAttribute("style", "width:40%; text-align: center; margin: 0 auto; margin-top: 10px;");
     boton.addEventListener("click", function (event) {
         event.preventDefault();
-        guardarNuevaPasswordEmp(identificador);
+        guardarNuevaPasswordEmp(identificador, idEmpresa);
     });
 
-    boton.innerHTML = "Guardar";
+    var texto = document.createTextNode("Guardar");
+    boton.appendChild(texto);
     form.appendChild(boton);
     fondo.appendChild(contenido);
 }
 
 function listadoAlumnos(objeto) {
 
-    //var fondo = document.getElementById("fondo");
-    //limpiarPantalla(fondo);
+    var fondo = document.getElementById("fondo");
+    limpiarPantalla(fondo);
 
     var contenido = document.createElement("div");
 
@@ -535,7 +554,8 @@ function listadoAlumnos(objeto) {
     contenido.setAttribute("style", "width:80%;");
 
     var h2 = document.createElement("h3");
-    h2.innerHTML = "Alumnos encontrados";
+    var texto = document.createTextNode("Alumnos Encontrados");
+    h2.appendChild(texto);
     contenido.appendChild(h2);
 
     var tabla = document.createElement("table");
@@ -572,6 +592,12 @@ function listadoAlumnos(objeto) {
     var texto5 = document.createTextNode("DIRECCION");
     cab5.appendChild(texto5);
     cab.appendChild(cab5);
+
+    var cab6 = document.createElement("th");
+    var texto6 = document.createTextNode("CONTRATAR");
+    cab6.appendChild(texto6);
+    cab.appendChild(cab6);
+
     tblBody.appendChild(cab);
 
 
@@ -602,6 +628,20 @@ function listadoAlumnos(objeto) {
         var textoCelda = document.createTextNode(objeto[i]["residencia"]);
         celda.appendChild(textoCelda);
         hilera.appendChild(celda);
+
+        var celda = document.createElement("td");    
+        var boton = document.createElement("button");
+        var textoBoton = document.createTextNode("Contratar");
+        boton.appendChild(textoBoton);
+        boton.setAttribute("class", "btn btn-link");
+        boton.setAttribute("style", "width:20%;");
+        boton.addEventListener("click", function (event) {
+            event.preventDefault();
+            alert("hola");
+        });
+
+        celda.appendChild(boton);
+        hilera.appendChild(celda);
         
         tblBody.appendChild(hilera);
     }
@@ -620,7 +660,8 @@ function listadoAlumnos(objeto) {
 
     });
 
-    boton.innerHTML = "Ver PDF";
+    var texto = document.createTextNode("Ver PDF");
+    boton.appendChild(texto);
     contenido.appendChild(boton);
     fondo.appendChild(contenido);
 
@@ -633,12 +674,12 @@ function listadoAlumnos(objeto) {
 
     });
 
-    boton.innerHTML = "Descargar PDF";
+    var texto = document.createTextNode("Descargar PDF");
+    boton.appendChild(texto);
     contenido.appendChild(boton);
     fondo.appendChild(contenido);
-
-
 }
+
 
 function generaPDF(objeto, opcion) {
     var doc = new jsPDF();

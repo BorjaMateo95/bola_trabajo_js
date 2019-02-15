@@ -7,7 +7,7 @@ global $conn;
 
 $empresa = json_decode($_REQUEST['json']);
 
-$sql = "INSERT INTO empresa (nombre, cif, telefono, email, password, direccion, persona_contacto) VALUES ('" . $empresa->cif . "', '" . $empresa->nombre . "', '" . $empresa->telefono . "', '" . $empresa->email . "', '" . $empresa->password ."', '" . $empresa->direccion . "', '" . $empresa->pcontacto . "');";
+$sql = "INSERT INTO empresa (nombre, cif, telefono, email, password, direccion, persona_contacto) VALUES ('" . $empresa->nombre . "', '" . $empresa->cif . "', '" . $empresa->telefono . "', '" . $empresa->email . "', '" . $empresa->password ."', '" . $empresa->direccion . "', '" . $empresa->pcontacto . "');";
 
 $resultado = $conn->query($sql);
 
