@@ -25,16 +25,21 @@ CREATE TABLE IF NOT EXISTS `alumno_bolsa` (
   `email` varchar(100) NOT NULL,
   `residencia` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
+  `temporal` varchar(50) NOT NULL DEFAULT 'true',
+  `disponibilidadViajar` varchar(50) NOT NULL,
+  `cambioResidencia` varchar(50) NOT NULL,
+  `telefono` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `dni` (`dni`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla bd_bolsatrabajo_dwec.alumno_bolsa: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla bd_bolsatrabajo_dwec.alumno_bolsa: ~3 rows (aproximadamente)
 DELETE FROM `alumno_bolsa`;
 /*!40000 ALTER TABLE `alumno_bolsa` DISABLE KEYS */;
-INSERT INTO `alumno_bolsa` (`id`, `dni`, `nombre`, `apellidos`, `email`, `residencia`, `password`) VALUES
-	(23, '48258022c', 'BORJA', 'MATEO LEON', 'b@b.com', 'albacete', ''),
-	(29, '87654321A', 'PERICO', 'PALOTES', 'orbitbml@gmail.com', 'TARAZONA DE LA MANCHA', 'yiqhR');
+INSERT INTO `alumno_bolsa` (`id`, `dni`, `nombre`, `apellidos`, `email`, `residencia`, `password`, `temporal`, `disponibilidadViajar`, `cambioResidencia`, `telefono`) VALUES
+	(29, '87654321A', 'PERICO', 'PALOTES', 'orbitbml@gmail.com', 'TARAZONA DE LA MANCHA', '1456', 'false', 'false', 'false', ''),
+	(30, '48258022c', 'BORJAaaaa', 'MATEO LEON', 'b@b.com', 'CUENCA', '123', 'false', 'true', 'true', '88888999'),
+	(38, '12345678a', 'PEPE', 'PERAS', 'P@P.COM', 'CUENCA', '123', 'false', 'true', 'false', '123456789');
 /*!40000 ALTER TABLE `alumno_bolsa` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_bolsatrabajo_dwec.cursos
@@ -44,11 +49,15 @@ CREATE TABLE IF NOT EXISTS `cursos` (
   `centro` varchar(250) NOT NULL,
   `duracion` varchar(250) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla bd_bolsatrabajo_dwec.cursos: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bd_bolsatrabajo_dwec.cursos: ~3 rows (aproximadamente)
 DELETE FROM `cursos`;
 /*!40000 ALTER TABLE `cursos` DISABLE KEYS */;
+INSERT INTO `cursos` (`id`, `nombre`, `centro`, `duracion`) VALUES
+	(5, 'ANGULAR', 'WEB', '20'),
+	(6, 'HIBERNATE', 'WEB', '180'),
+	(7, 'CURSITO', 'NA', '15');
 /*!40000 ALTER TABLE `cursos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_bolsatrabajo_dwec.cursos_centro
@@ -81,11 +90,14 @@ CREATE TABLE IF NOT EXISTS `curso_alumno` (
   KEY `FK_curso_alumno_cursos` (`idCurso`),
   CONSTRAINT `FK_curso_alumno_alumno_bolsa` FOREIGN KEY (`dni`) REFERENCES `alumno_bolsa` (`dni`),
   CONSTRAINT `FK_curso_alumno_cursos` FOREIGN KEY (`idCurso`) REFERENCES `cursos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla bd_bolsatrabajo_dwec.curso_alumno: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bd_bolsatrabajo_dwec.curso_alumno: ~2 rows (aproximadamente)
 DELETE FROM `curso_alumno`;
 /*!40000 ALTER TABLE `curso_alumno` DISABLE KEYS */;
+INSERT INTO `curso_alumno` (`id`, `dni`, `idCurso`) VALUES
+	(5, '48258022c', 5),
+	(6, '48258022c', 6);
 /*!40000 ALTER TABLE `curso_alumno` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_bolsatrabajo_dwec.curso_centro_alumno
@@ -98,12 +110,33 @@ CREATE TABLE IF NOT EXISTS `curso_centro_alumno` (
   KEY `FK_curso_centro_alumno_cursos_centro` (`idEstCentro`),
   CONSTRAINT `FK_curso_centro_alumno_alumno_bolsa` FOREIGN KEY (`dni`) REFERENCES `alumno_bolsa` (`dni`),
   CONSTRAINT `FK_curso_centro_alumno_cursos_centro` FOREIGN KEY (`idEstCentro`) REFERENCES `cursos_centro` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla bd_bolsatrabajo_dwec.curso_centro_alumno: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bd_bolsatrabajo_dwec.curso_centro_alumno: ~2 rows (aproximadamente)
 DELETE FROM `curso_centro_alumno`;
 /*!40000 ALTER TABLE `curso_centro_alumno` DISABLE KEYS */;
+INSERT INTO `curso_centro_alumno` (`id`, `dni`, `idEstCentro`) VALUES
+	(5, '48258022c', 2),
+	(6, '48258022c', 1);
 /*!40000 ALTER TABLE `curso_centro_alumno` ENABLE KEYS */;
+
+-- Volcando estructura para tabla bd_bolsatrabajo_dwec.empleadora
+CREATE TABLE IF NOT EXISTS `empleadora` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `dniAlumno` varchar(100) NOT NULL,
+  `cifEmpresa` varchar(100) NOT NULL,
+  `fechaAltaEmpleo` int(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `dniAlumno_cifEmpresa` (`dniAlumno`,`cifEmpresa`),
+  KEY `FK_empleadora_empresa` (`cifEmpresa`),
+  CONSTRAINT `FK_empleadora_alumno_bolsa` FOREIGN KEY (`dniAlumno`) REFERENCES `alumno_bolsa` (`dni`),
+  CONSTRAINT `FK_empleadora_empresa` FOREIGN KEY (`cifEmpresa`) REFERENCES `empresa` (`cif`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla bd_bolsatrabajo_dwec.empleadora: ~0 rows (aproximadamente)
+DELETE FROM `empleadora`;
+/*!40000 ALTER TABLE `empleadora` DISABLE KEYS */;
+/*!40000 ALTER TABLE `empleadora` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_bolsatrabajo_dwec.empresa
 CREATE TABLE IF NOT EXISTS `empresa` (
@@ -115,17 +148,18 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   `password` varchar(50) NOT NULL,
   `direccion` varchar(100) NOT NULL,
   `persona_contacto` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+  `temporal` varchar(50) NOT NULL DEFAULT 'true',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `cif` (`cif`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla bd_bolsatrabajo_dwec.empresa: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla bd_bolsatrabajo_dwec.empresa: ~3 rows (aproximadamente)
 DELETE FROM `empresa`;
 /*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
-INSERT INTO `empresa` (`id`, `nombre`, `cif`, `telefono`, `email`, `password`, `direccion`, `persona_contacto`) VALUES
-	(12, 'adfvad', 'fadfv', 'asdv', 'asdf', 'yxJMw', 'asdf', 'asdf'),
-	(13, 'adfvad', 'fadfv', 'asdv', 'asdf', 'qD6uh', 'asdf', 'asdf'),
-	(14, 'adfvadffff', 'fadfv', 'asdv', 'asdf', 'LH9UI', 'asdf', 'asdf'),
-	(15, 'xdafsdf', '44', '666', 'orbitbml@gmail.com', '44', 'cantarranas 14', 'asdf');
+INSERT INTO `empresa` (`id`, `nombre`, `cif`, `telefono`, `email`, `password`, `direccion`, `persona_contacto`, `temporal`) VALUES
+	(15, 'xdafsdf', '44', '666', 'orbitbml@gmail.com', '123', 'cantarranas 14', 'asdf', 'false'),
+	(16, '55', '55', '96789964', 'orbitbml@gmail.com', '123', 'c calle', 'yo', 'false'),
+	(17, '66', '66', '666', 'orbitbml@gmail.com', '123', 'asdf', 'asdf', 'false');
 /*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_bolsatrabajo_dwec.experiencia_laboral
@@ -140,24 +174,42 @@ CREATE TABLE IF NOT EXISTS `experiencia_laboral` (
   CONSTRAINT `FK_experiencia_laboral_alumno_bolsa` FOREIGN KEY (`dni`) REFERENCES `alumno_bolsa` (`dni`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla bd_bolsatrabajo_dwec.experiencia_laboral: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bd_bolsatrabajo_dwec.experiencia_laboral: ~2 rows (aproximadamente)
 DELETE FROM `experiencia_laboral`;
 /*!40000 ALTER TABLE `experiencia_laboral` DISABLE KEYS */;
+INSERT INTO `experiencia_laboral` (`id`, `dni`, `especialidad`, `empresa`, `tiempo`) VALUES
+	(5, '48258022c', 'PROGRAMACION', 'ORBIT', 12),
+	(6, '48258022c', 'CAMARERO', 'LOGOMA', 4);
 /*!40000 ALTER TABLE `experiencia_laboral` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_bolsatrabajo_dwec.solicitud
 CREATE TABLE IF NOT EXISTS `solicitud` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fecha` date NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `perfil` varchar(300) NOT NULL,
   `viajar` varchar(10) NOT NULL,
   `cambio_residencia` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `experiencia` int(11) NOT NULL DEFAULT '0',
+  `idEmpresa` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_solicitud_empresa` (`idEmpresa`),
+  CONSTRAINT `FK_solicitud_empresa` FOREIGN KEY (`idEmpresa`) REFERENCES `empresa` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla bd_bolsatrabajo_dwec.solicitud: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bd_bolsatrabajo_dwec.solicitud: ~10 rows (aproximadamente)
 DELETE FROM `solicitud`;
 /*!40000 ALTER TABLE `solicitud` DISABLE KEYS */;
+INSERT INTO `solicitud` (`id`, `fecha`, `perfil`, `viajar`, `cambio_residencia`, `experiencia`, `idEmpresa`) VALUES
+	(18, '2019-02-14 10:15:10', '1', 'true', 'false', 5, 15),
+	(19, '2019-02-14 10:17:37', '1', 'false', 'true', 0, 16),
+	(20, '2019-02-14 10:20:53', '1', 'false', 'false', 0, 17),
+	(21, '2019-02-14 10:54:32', '1', 'false', 'false', 0, 16),
+	(22, '2019-02-14 10:55:47', '1', 'false', 'false', 0, 16),
+	(23, '2019-02-14 10:57:33', '1', 'false', 'false', 0, 16),
+	(24, '2019-02-14 11:11:14', '1', 'false', 'true', 10, 15),
+	(25, '2019-02-14 12:16:15', '1', 'false', 'false', 0, 15),
+	(26, '2019-02-14 12:16:55', '1', 'false', 'false', 0, 15),
+	(27, '2019-02-15 17:53:56', '1', 'false', 'false', 0, 16);
 /*!40000 ALTER TABLE `solicitud` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -25,7 +25,10 @@ $alumno->experiencia . "', " . $alumno->idEmpresa . ");";
 
 $resulInsert = $conn->query($sqlGuardaSolicitud);
 
-$sql = "SELECT * FROM alumno_bolsa";
+$sql = "SELECT DISTINCT a.dni, a.nombre, a.apellidos, a.email, a.residencia, a.telefono FROM alumno_bolsa a, curso_centro_alumno c, experiencia_laboral e
+WHERE a.dni = c.dni AND c.idEstCentro = '" .$alumno->perfil ."'
+AND a.dni = e.dni AND e.tiempo >= '" . $alumno->experiencia . "'
+AND a.disponibilidadViajar = '" . $viajar . "' AND a.cambioResidencia = '" . $residencia . "'";
 
     $resultado=$conn->query($sql);
     

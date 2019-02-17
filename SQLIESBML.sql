@@ -13,12 +13,10 @@
 
 
 -- Volcando estructura de base de datos para bd_alumnosproyectocliente_bml
-DROP DATABASE IF EXISTS `bd_alumnosproyectocliente_bml`;
 CREATE DATABASE IF NOT EXISTS `bd_alumnosproyectocliente_bml` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `bd_alumnosproyectocliente_bml`;
 
 -- Volcando estructura para tabla bd_alumnosproyectocliente_bml.alumnos
-DROP TABLE IF EXISTS `alumnos`;
 CREATE TABLE IF NOT EXISTS `alumnos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `dni` varchar(50) NOT NULL,
@@ -26,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `alumnos` (
   `apellidos` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `residencia` varchar(100) NOT NULL,
+  `telefono` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `dni` (`dni`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -33,10 +32,10 @@ CREATE TABLE IF NOT EXISTS `alumnos` (
 -- Volcando datos para la tabla bd_alumnosproyectocliente_bml.alumnos: ~3 rows (aproximadamente)
 DELETE FROM `alumnos`;
 /*!40000 ALTER TABLE `alumnos` DISABLE KEYS */;
-INSERT INTO `alumnos` (`id`, `dni`, `nombre`, `apellidos`, `email`, `residencia`) VALUES
-	(1, '48258022c', 'BORJA', 'MATEO LEON', 'b@b.com', 'albacete'),
-	(2, '12345678a', 'PEPE', 'PERAS', 'P@P.COM', 'CUENCA'),
-	(3, '87654321A', 'PERICO', 'PALOTES', 'peri@peri.com', 'TARAZONA DE LA MANCHA');
+INSERT INTO `alumnos` (`id`, `dni`, `nombre`, `apellidos`, `email`, `residencia`, `telefono`) VALUES
+	(1, '48258022c', 'BORJA', 'MATEO LEON', 'b@b.com', 'albacete', '6987456'),
+	(2, '12345678a', 'PEPE', 'PERAS', 'P@P.COM', 'CUENCA', '6932587'),
+	(3, '87654321A', 'PERICO', 'PALOTES', 'peri@peri.com', 'TARAZONA DE LA MANCHA', '695478123');
 /*!40000 ALTER TABLE `alumnos` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

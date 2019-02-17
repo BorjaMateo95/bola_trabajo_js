@@ -410,7 +410,8 @@ function buscarAlumnos(idEmpresa) {
     var posibilidadViajar = document.getElementById("viajar").checked;
 
     var objetoSolicitud = {'perfil': perfil, 'experiencia': experiencia, 
-    'cambiarResidencia': cambiarResidencia, 'posibilidadViajar': posibilidadViajar, 'idEmpresa': idEmpresa};
+    'cambiarResidencia': cambiarResidencia, 'posibilidadViajar': posibilidadViajar,
+     'idEmpresa': idEmpresa};
 
     var json = JSON.stringify(objetoSolicitud);
     objetoAjax = ObjetoAjax();
@@ -683,13 +684,22 @@ function listadoAlumnos(objeto) {
 
 function generaPDF(objeto, opcion) {
     var doc = new jsPDF();
-
     doc.setTextColor(100);
-    doc.text(20, 50, 'Listado de Alumnos');
+    doc.text(20, 20, 'Listado de Alumnos');
+    var e;
 
     for (var i = 0; i < objeto.length; i++) {
         doc.setTextColor(100);
-        doc.text(20, 20, objeto[i]["dni"] + " " + objeto[i]["nombre"] + " " + objeto[i]["apellidos"])
+        if(i==0) {
+            e = 40;
+        }else{
+            e = e + 10;
+        }
+        doc.text(20, e, objeto[i]["dni"] + 
+            " " + objeto[i]["nombre"] + 
+            " " + objeto[i]["apellidos"] +
+            " " + objeto[i]["email"] +
+            " " + objeto[i]["telefono"]);
     }
 
     if(opcion=="ver") {
