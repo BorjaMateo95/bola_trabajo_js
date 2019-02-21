@@ -506,7 +506,7 @@ function insertaUsuarioBD() {
 
     var objetoUsuario = {'dni': dni, 'nombre': nombre, 'apellidos': apellidos,
      'direccion': direccion, 'email': email, 'password': generaPassword(), 'telefono': telefono, 'posibilidadViajar': disponibilidadViajar,
-     'cambioResidencia': cambioResidencia};
+     'cambiarResidencia': cambioResidencia};
 
     var json = JSON.stringify(objetoUsuario);
     objetoAjax = ObjetoAjax();
@@ -707,6 +707,17 @@ function iniciarSesionSolicitante() {
     inputP.required = true;
     form.appendChild(inputP);
 
+    var botonPass = document.createElement("button");
+    botonPass.setAttribute("class", "btn btn-link");
+    botonPass.setAttribute("style", "text-align: center; margin: 0 auto; margin-top: 1px;");
+    botonPass.addEventListener("click", function (event) {
+        event.preventDefault();
+        pintaRecordarPass("alumno");
+    });
+
+    var texto = document.createTextNode("Olvidé mi contraseña");
+    botonPass.appendChild(texto);
+
     var boton = document.createElement("button");
     boton.setAttribute("class", "btn btn-primary btn-block");
     boton.setAttribute("style", "width:40%; text-align: center; margin: 0 auto; margin-top: 10px;");
@@ -717,6 +728,7 @@ function iniciarSesionSolicitante() {
 
     var texto = document.createTextNode("Entrar");
     boton.appendChild(texto);
+    form.appendChild(botonPass);
     form.appendChild(boton);
     fondo.appendChild(contenido);
 }
@@ -743,10 +755,10 @@ function iniciaSesion() {
                     pideCambioContraseña(objeto);
                 }else{
                     pintaUsuarioRegistrado(objeto);
+                    aniadirSubmenu("alumno", objeto);
                 }
             }else{
                 alert("DNI o Contraseña incorrecto");
-
             }
 
             
@@ -771,7 +783,7 @@ function guardarNuevaPassword(objeto) {
                 var fondo = document.getElementById("fondo");
                 limpiarPantalla(fondo);
                 pintaUsuarioRegistrado(objeto);
-
+                aniadirSubmenu("alumno", objeto);
             }
         }
     }else{

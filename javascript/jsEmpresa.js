@@ -207,6 +207,17 @@ function pintaIniciarSesionEmpresa() {
     input.required = true;
     form.appendChild(input);
 
+    var botonPass = document.createElement("button");
+    botonPass.setAttribute("class", "btn btn-link");
+    botonPass.setAttribute("style", "text-align: center; margin: 0 auto; margin-top: 1px;");
+    botonPass.addEventListener("click", function (event) {
+        event.preventDefault();
+        pintaRecordarPass("empresa");
+    });
+
+    var texto = document.createTextNode("Olvidé mi contraseña");
+    botonPass.appendChild(texto);
+
     var boton = document.createElement("button");
     boton.setAttribute("class", "btn btn-primary btn-block");
     boton.setAttribute("style", "width:40%; text-align: center; margin: 0 auto; margin-top: 10px;");
@@ -217,6 +228,7 @@ function pintaIniciarSesionEmpresa() {
 
     var texto = document.createTextNode("Entrar");
     boton.appendChild(texto);
+    form.appendChild(botonPass);
     form.appendChild(boton);
     fondo.appendChild(contenido);
 }
@@ -240,11 +252,13 @@ function iniciaSesionEmpresa() {
             }else{
 
                 if(objeto['temporal'] == "true") {
+
                     var fondo = document.getElementById("fondo");
                     limpiarPantalla(fondo);
-                    pideCambioContraseñaEmp(objeto['cif'], objeto['id']);
+                    pideCambioContraseñaEmp(objeto['cif'], objeto['id'], objeto['nombre'], objeto);
                 }else{
                     dameCursos(objeto['id']);
+                    aniadirSubmenu("empresa", objeto);
                 }
                 
                 
@@ -424,7 +438,7 @@ function buscarAlumnos(idEmpresa) {
             if(objeto == 0){
                 alert("No hay alumnos disponibles para estas condiciones de busqueda");
             }else{
-                listadoAlumnos(objeto);
+                listadoAlumnos(objeto, idEmpresa);
             }
             
             
@@ -463,7 +477,7 @@ function insertarEmpresaBD() {
 }
 
 
-function guardarNuevaPasswordEmp(identificador, idEmpresa) {
+function guardarNuevaPasswordEmp(identificador, idEmpresa, nombre, objeto) {
     var pass1 = document.getElementById("passnueva1").value;
     var pass2 = document.getElementById("passnueva2").value;
 
@@ -476,6 +490,7 @@ function guardarNuevaPasswordEmp(identificador, idEmpresa) {
         objetoAjax.onreadystatechange = function () {
             if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
                 dameCursos(idEmpresa);
+                aniadirSubmenu("empresa", objeto);
             }
         }
     }else{
@@ -487,7 +502,7 @@ function guardarNuevaPasswordEmp(identificador, idEmpresa) {
 }
 
 
-function pideCambioContraseñaEmp(identificador, idEmpresa) {
+function pideCambioContraseñaEmp(identificador, idEmpresa, nombre, objeto) {
     var contenido = document.createElement("div");
 
     contenido.setAttribute("id", "contenido");
@@ -535,7 +550,7 @@ function pideCambioContraseñaEmp(identificador, idEmpresa) {
     boton.setAttribute("style", "width:40%; text-align: center; margin: 0 auto; margin-top: 10px;");
     boton.addEventListener("click", function (event) {
         event.preventDefault();
-        guardarNuevaPasswordEmp(identificador, idEmpresa);
+        guardarNuevaPasswordEmp(identificador, idEmpresa, nombre, objeto);
     });
 
     var texto = document.createTextNode("Guardar");
@@ -544,7 +559,7 @@ function pideCambioContraseñaEmp(identificador, idEmpresa) {
     fondo.appendChild(contenido);
 }
 
-function listadoAlumnos(objeto) {
+function listadoAlumnos(objeto, idEmpresa) {
 
     var fondo = document.getElementById("fondo");
     limpiarPantalla(fondo);
@@ -636,14 +651,15 @@ function listadoAlumnos(objeto) {
         boton.appendChild(textoBoton);
         boton.setAttribute("class", "btn btn-link");
         boton.setAttribute("style", "width:20%;");
+        boton.setAttribute("id", i);
+        boton.setAttribute("name", i);
         boton.addEventListener("click", function (event) {
             event.preventDefault();
-            alert("hola");
+            contratar(objeto[this.id]["dni"], idEmpresa);
         });
 
         celda.appendChild(boton);
         hilera.appendChild(celda);
-        
         tblBody.appendChild(hilera);
     }
 
@@ -682,6 +698,22 @@ function listadoAlumnos(objeto) {
 }
 
 
+function contratar(dni, idEmpresa) {
+
+    var objetoContratar = {'dni': dni, 'idEmpresa': idEmpresa};
+    var json = JSON.stringify(objetoContratar);
+    objetoAjax = ObjetoAjax();
+    objetoAjax.open('GET', "php/setContrato.php?json=" + json);
+    objetoAjax.send();
+    objetoAjax.onreadystatechange = function () {
+        if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+            alert("Alumno contratado correctamente");
+        }
+    }
+
+}
+
+
 function generaPDF(objeto, opcion) {
     var doc = new jsPDF();
     doc.setTextColor(100);
@@ -712,6 +744,199 @@ function generaPDF(objeto, opcion) {
         x.document.close();
     }else{
         doc.save();
+    }
+
+}
+
+function modificarDatosEmpresa(objeto) {
+    var fondo = document.getElementById("fondo");
+    limpiarPantalla(fondo);
+
+    var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:65%;");
+
+    var h2 = document.createElement("h2");
+    var texto = document.createTextNode("Sus Datos");
+    h2.appendChild(texto);
+    contenido.appendChild(h2);
+    var form = document.createElement("form");
+    contenido.appendChild(form);
+
+    var divrow = document.createElement("div");
+    divrow.setAttribute("class", "row");
+    contenido.appendChild(divrow);
+    form.appendChild(divrow);
+
+    var divdos = document.createElement("div");
+    divdos.setAttribute("class", "col-sm-4");
+    divrow.appendChild(divdos);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "cif");
+    var texto = document.createTextNode("CIF");
+    label.appendChild(texto);
+    divdos.appendChild(label);
+
+    var inputCIF = document.createElement("input");
+    inputCIF.setAttribute("type", "text");
+    inputCIF.setAttribute("class", "form-control");
+    inputCIF.setAttribute("id", "cif");
+    inputCIF.setAttribute("placeholder", "X12345678");
+    inputCIF.setAttribute("name", "cif");
+    inputCIF.setAttribute("value", objeto["cif"]);
+
+    divdos.appendChild(inputCIF);
+    form.appendChild(divrow);
+
+    var divtres = document.createElement("div");
+    divtres.setAttribute("class", "col-sm-4");
+    divrow.appendChild(divtres);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "name");
+    var texto = document.createTextNode("Nombre");
+    label.appendChild(texto);
+    divtres.appendChild(label);
+    var inputN = document.createElement("input");
+    inputN.setAttribute("type", "text");
+    inputN.setAttribute("class", "form-control");
+    inputN.setAttribute("id", "name");
+    inputN.setAttribute("placeholder", "Nombre Empresa");
+    inputN.setAttribute("name", "name");
+    inputN.setAttribute("value", objeto["nombre"]);
+    divtres.appendChild(inputN);
+    form.appendChild(divrow);
+
+    var divcuatro = document.createElement("div");
+    divcuatro.setAttribute("class", "col-sm-4");
+    divrow.appendChild(divcuatro);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "telefono");
+    var texto = document.createTextNode("Telefono");
+    label.appendChild(texto);
+    divcuatro.appendChild(label);
+    var inputA = document.createElement("input");
+    inputA.setAttribute("type", "text");
+    inputA.setAttribute("class", "form-control");
+    inputA.setAttribute("id", "telefono");
+    inputA.setAttribute("placeholder", "967462619");
+    inputA.setAttribute("name", "telefono");
+    inputA.setAttribute("value", objeto["telefono"]);
+    divcuatro.appendChild(inputA);
+    form.appendChild(divrow);
+
+    var divrow2 = document.createElement("div");
+    divrow2.setAttribute("class", "row");
+    contenido.appendChild(divrow2);
+    form.appendChild(divrow2);
+
+    var divcinco = document.createElement("div");
+    divcinco.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divcinco);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "email");
+    var texto = document.createTextNode("Email");
+    label.appendChild(texto);
+    divcinco.appendChild(label);
+    var inputE = document.createElement("input");
+    inputE.setAttribute("type", "email");
+    inputE.setAttribute("class", "form-control");
+    inputE.setAttribute("id", "email");
+    inputE.setAttribute("placeholder", "info@empresa.com");
+    inputE.setAttribute("name", "email");
+    inputE.setAttribute("value", objeto["email"]);
+    divcinco.appendChild(inputE);
+    form.appendChild(divrow2);
+
+    var divseis = document.createElement("div");
+    divseis.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divseis);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "direccion");
+    var texto = document.createTextNode("Direccion");
+    label.appendChild(texto);
+    divseis.appendChild(label);
+    var inputE = document.createElement("input");
+    inputE.setAttribute("type", "text");
+    inputE.setAttribute("class", "form-control");
+    inputE.setAttribute("id", "direccion");
+    inputE.setAttribute("placeholder", "C/ piruleta");
+    inputE.setAttribute("name", "direccion");
+    inputE.setAttribute("value", objeto["direccion"]);
+    divseis.appendChild(inputE);
+    form.appendChild(divrow2);
+
+
+    var divsiete = document.createElement("div");
+    divsiete.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divsiete);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "pcontacto");
+    var texto = document.createTextNode("Persona Contacto");
+    label.appendChild(texto);
+    divsiete.appendChild(label);
+    var inputE = document.createElement("input");
+    inputE.setAttribute("type", "pcontacto");
+    inputE.setAttribute("class", "form-control");
+    inputE.setAttribute("id", "pcontacto");
+    inputE.setAttribute("placeholder", "Perico");
+    inputE.setAttribute("name", "pcontacto");
+    inputE.setAttribute("value", objeto["persona_contacto"]);
+    divsiete.appendChild(inputE);
+    form.appendChild(divrow2);
+
+    var divboton = document.createElement("div");
+    divboton.setAttribute("class", "row");
+    divboton.setAttribute("style", "margin-top: 5px");
+    contenido.appendChild(divboton);
+
+    var col = document.createElement("div");
+    col.setAttribute("class", "col");
+    divboton.appendChild(col);
+
+
+    var boton = document.createElement("button");
+    boton.setAttribute("class", "btn btn-primary");
+    boton.setAttribute("style", "width:30%;");
+    boton.addEventListener("click", function (event) {
+        event.preventDefault();
+        actualizarEmpresaBD();
+    });
+
+    var texto = document.createTextNode("Actualizar Empresa");
+    boton.appendChild(texto);
+    col.appendChild(boton);
+    form.appendChild(divboton);
+    fondo.appendChild(contenido);
+}
+
+function actualizarEmpresaBD() {
+    var cif = document.getElementById("cif").value;
+    var nombre = document.getElementById("name").value;
+    var telefono = document.getElementById("telefono").value;
+    var email = document.getElementById("email").value;
+    var direccion = document.getElementById("direccion").value;
+    var pContacto = document.getElementById("pcontacto").value;
+
+    var objetoEmpresa = {'cif': cif, 'nombre': nombre, 'telefono': telefono, 'email': email, 
+    'direccion': direccion, 'pcontacto': pContacto};
+
+    var json = JSON.stringify(objetoEmpresa);
+    objetoAjax = ObjetoAjax();
+    objetoAjax.open('GET', "php/updateEmpresa.php?json=" + json);
+    objetoAjax.send();
+    objetoAjax.onreadystatechange = function () {
+        if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+            var datos = objetoAjax.responseText;
+            var objeto = JSON.parse(datos);
+            alert("Perfil empresa actualizado correctamente");
+        }
     }
 
 }
