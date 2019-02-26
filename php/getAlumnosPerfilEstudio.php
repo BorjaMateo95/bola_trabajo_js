@@ -7,7 +7,7 @@ global $conn;
 
 $alumno = json_decode($_REQUEST['json']);
 
-$sql = "SELECT a.dni, a.nombre, a.apellidos, a.email, a.residencia, a.telefono FROM alumno_bolsa a, curso_centro_alumno c WHERE a.dni = c.dni AND c.idEstCentro = '" .$alumno->idestudio ."'";
+$sql = "SELECT DISTINCT a.dni, a.nombre, a.apellidos, a.email, a.residencia, a.telefono, a.disponibilidadViajar, a.cambioResidencia, a.contratado FROM alumno_bolsa a, curso_centro_alumno c WHERE a.dni = c.dni AND c.idEstCentro = '" .$alumno->idestudio ."'";
 
     $resultado=$conn->query($sql);
     

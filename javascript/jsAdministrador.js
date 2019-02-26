@@ -356,7 +356,7 @@ function listadoEmpresasPerfil(objeto, bucle) {
 }
 
 
-function listadoAlumnosPerfil(objeto) {
+function listadoAlumnosPerfil(objeto, bucle) {
 
 	var fondo = document.getElementById("fondo");
     limpiarPantalla(fondo);
@@ -364,10 +364,16 @@ function listadoAlumnosPerfil(objeto) {
     var contenido = document.createElement("div");
 
     contenido.setAttribute("id", "contenido");
-    contenido.setAttribute("style", "width:80%;");
+    contenido.setAttribute("style", "width:90%;");
 
     var h2 = document.createElement("h3");
-    var texto = document.createTextNode("Alumnos Encontrados");
+
+    if(bucle != undefined) {
+		var texto = document.createTextNode("Datos Alumno");
+    }else{
+		var texto = document.createTextNode("Alumnos Encontrados");
+    }
+    
     h2.appendChild(texto);
     contenido.appendChild(h2);
 
@@ -407,13 +413,30 @@ function listadoAlumnosPerfil(objeto) {
     cab.appendChild(cab5);
 
     var cab6 = document.createElement("th");
-    var texto6 = document.createTextNode("CONTRATAR");
+    var texto6 = document.createTextNode("DISPONIBILIDAD VIAJAR");
     cab6.appendChild(texto6);
     cab.appendChild(cab6);
 
+    var cab7 = document.createElement("th");
+    var texto7 = document.createTextNode("CAMBIAR RESIDENCIA");
+    cab7.appendChild(texto7);
+    cab.appendChild(cab7);
+
+    var cab8 = document.createElement("th");
+    var texto8 = document.createTextNode("CONTRATADO");
+    cab8.appendChild(texto8);
+    cab.appendChild(cab8);
+
+    var cab9 = document.createElement("th");
+    var texto9 = document.createTextNode("TELEFONO");
+    cab9.appendChild(texto9);
+    cab.appendChild(cab9);
+
+
+
     tblBody.appendChild(cab);
 
-
+    if (bucle == undefined) {
     for (var i = 0; i < objeto.length; i++) {
         var hilera = document.createElement("tr");
 
@@ -442,23 +465,81 @@ function listadoAlumnosPerfil(objeto) {
         celda.appendChild(textoCelda);
         hilera.appendChild(celda);
 
-        var celda = document.createElement("td");    
-        var boton = document.createElement("button");
-        var textoBoton = document.createTextNode("Contratar");
-        boton.appendChild(textoBoton);
-        boton.setAttribute("class", "btn btn-link");
-        boton.setAttribute("style", "width:20%;");
-        boton.setAttribute("id", i);
-        boton.setAttribute("name", i);
-        boton.addEventListener("click", function (event) {
-            event.preventDefault();
-            contratar(objeto[this.id]["dni"], idEmpresa);
-        });
-
-        celda.appendChild(boton);
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto[i]["disponibilidadViajar"]);
+        celda.appendChild(textoCelda);
         hilera.appendChild(celda);
+
+       	var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto[i]["cambioResidencia"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+       	var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto[i]["contratado"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto[i]["telefono"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
         tblBody.appendChild(hilera);
     }
+
+    }else{
+        var hilera = document.createElement("tr");
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto["dni"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto["nombre"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto["apellidos"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto["email"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto["residencia"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto["disponibilidadViajar"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+       	var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto["cambioResidencia"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+       	var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto["contratado"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(objeto["telefono"]);
+        celda.appendChild(textoCelda);
+        hilera.appendChild(celda);
+
+
+        tblBody.appendChild(hilera);
+    }
+    
 
     tabla.appendChild(tblBody);
     contenido.appendChild(tabla);
@@ -538,7 +619,11 @@ function buscaAlumno(identificador) {
             if(objeto == 0){
                 alert("DNI no registrado en la base de datos");
             }else{
-                visualizaAlumno(objeto);
+                listadoAlumnosPerfil(objeto, "no");
+                listadoExperiencias(objeto.arrayExperiencia);
+                listadoEstudios(objeto.arrayEstudios);
+                listadoCursos(objeto.arrayCursos);
+                listadoContratos(objeto.arrayContratos, "alumno");
             }
             
             
@@ -563,7 +648,7 @@ function buscaEmpresa(identificador) {
             }else{
                 listadoEmpresasPerfil(objeto, "no");
 				listadoSolicitudes(objeto.arraySolicitudes);
-				listadoContratos(objeto.arrayContratos);
+				listadoContratos(objeto.arrayContratos, "empresa");
             }
             
             
@@ -572,6 +657,7 @@ function buscaEmpresa(identificador) {
 }
 
 function listadoSolicitudes(objeto) {
+	if(objeto.length != 0) {
 
     var contenido = document.createElement("div");
 
@@ -657,10 +743,11 @@ function listadoSolicitudes(objeto) {
     contenido.appendChild(tabla);
     tabla.setAttribute("border", "2");
     fondo.appendChild(contenido);
+}
 
 }
 
-function listadoContratos(objeto) {
+function listadoContratos(objeto, tipo) {
 	if(objeto.length != 0) {
     var contenido = document.createElement("div");
 
@@ -683,13 +770,15 @@ function listadoContratos(objeto) {
 
     var cab = document.createElement("tr");
 
-    var cab1 = document.createElement("th");
-    var texto1 = document.createTextNode("DNI ALUMNO");
-    cab1.appendChild(texto1);
-    cab.appendChild(cab1);
+    if(tipo =="empresa") {
+    	var cab1 = document.createElement("th");
+    	var texto1 = document.createTextNode("DNI ALUMNO");
+    	cab1.appendChild(texto1);
+    	cab.appendChild(cab1);
+	}
 
     var cab2 = document.createElement("th");
-    var texto2 = document.createTextNode("ID EMPRESA");
+    var texto2 = document.createTextNode("CIF EMPRESA");
     cab2.appendChild(texto2);
     cab.appendChild(cab2);
 
@@ -703,10 +792,12 @@ function listadoContratos(objeto) {
     	for (var i = 0; i < objeto.length; i++) {
         	var hilera = document.createElement("tr");
 
-        	var celda = document.createElement("td");
-        	var textoCelda = document.createTextNode(objeto[i]["dniAlumno"]);
-        	celda.appendChild(textoCelda);
-        	hilera.appendChild(celda);
+    		if(tipo =="empresa") {
+        		var celda = document.createElement("td");
+        		var textoCelda = document.createTextNode(objeto[i]["dniAlumno"]);
+        		celda.appendChild(textoCelda);
+        		hilera.appendChild(celda);
+        	}
 
         	var celda = document.createElement("td");
         	var textoCelda = document.createTextNode(objeto[i]["idEmpresa"]);
@@ -730,3 +821,224 @@ function listadoContratos(objeto) {
 
 }
 
+function listadoExperiencias(objeto) {
+	if(objeto.length != 0) {
+
+	var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:45%;");
+
+    var h2 = document.createElement("h4");
+	var texto = document.createTextNode("Experiencias Laborales");
+
+    h2.appendChild(texto);
+    contenido.appendChild(h2);
+
+    var tabla = document.createElement("table");
+    tabla.setAttribute("class", "table");
+
+    var thead = document.createElement("thead");
+    thead.setAttribute("class", "thead-dark");
+
+    var tblBody = document.createElement("tbody");
+
+    var cab = document.createElement("tr");
+
+    var cab1 = document.createElement("th");
+    var texto1 = document.createTextNode("ESPECIALIDAD");
+    cab1.appendChild(texto1);
+    cab.appendChild(cab1);
+
+    var cab2 = document.createElement("th");
+    var texto2 = document.createTextNode("EMPRESA");
+    cab2.appendChild(texto2);
+    cab.appendChild(cab2);
+
+    var cab3 = document.createElement("th");
+    var texto3 = document.createTextNode("MESES");
+    cab3.appendChild(texto3);
+    cab.appendChild(cab3);
+
+    tblBody.appendChild(cab);
+
+    	for (var i = 0; i < objeto.length; i++) {
+        	var hilera = document.createElement("tr");
+
+        	var celda = document.createElement("td");
+        	var textoCelda = document.createTextNode(objeto[i]["especialidad"]);
+        	celda.appendChild(textoCelda);
+        	hilera.appendChild(celda);
+
+        	var celda = document.createElement("td");
+        	var textoCelda = document.createTextNode(objeto[i]["empresa"]);
+       	 	celda.appendChild(textoCelda);
+        	hilera.appendChild(celda);
+
+        	var celda = document.createElement("td");
+        	var textoCelda = document.createTextNode(objeto[i]["tiempo"]);
+        	celda.appendChild(textoCelda);
+        	hilera.appendChild(celda);
+
+        	tblBody.appendChild(hilera);
+    	}    
+
+    tabla.appendChild(tblBody);
+    contenido.appendChild(tabla);
+    tabla.setAttribute("border", "2");
+    fondo.appendChild(contenido);
+
+}
+
+}
+
+
+function listadoEstudios(objeto) {
+	if(objeto.length != 0) {
+
+	var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:45%;");
+
+    var h2 = document.createElement("h4");
+	var texto = document.createTextNode("Estudios");
+
+    h2.appendChild(texto);
+    contenido.appendChild(h2);
+
+    var tabla = document.createElement("table");
+    tabla.setAttribute("class", "table");
+
+    var thead = document.createElement("thead");
+    thead.setAttribute("class", "thead-dark");
+
+    var tblBody = document.createElement("tbody");
+
+    var cab = document.createElement("tr");
+
+    var cab1 = document.createElement("th");
+    var texto1 = document.createTextNode("NOMBRE");
+    cab1.appendChild(texto1);
+    cab.appendChild(cab1);
+
+    var cab2 = document.createElement("th");
+    var texto2 = document.createTextNode("NIVEL");
+    cab2.appendChild(texto2);
+    cab.appendChild(cab2);
+
+    var cab3 = document.createElement("th");
+    var texto3 = document.createTextNode("PERFIL");
+    cab3.appendChild(texto3);
+    cab.appendChild(cab3);
+
+    var cab4 = document.createElement("th");
+    var texto4 = document.createTextNode("INSTITUTO");
+    cab4.appendChild(texto4);
+    cab.appendChild(cab4);
+
+    tblBody.appendChild(cab);
+
+    	for (var i = 0; i < objeto.length; i++) {
+        	var hilera = document.createElement("tr");
+
+        	var celda = document.createElement("td");
+        	var textoCelda = document.createTextNode(objeto[i]["nombre"]);
+        	celda.appendChild(textoCelda);
+        	hilera.appendChild(celda);
+
+        	var celda = document.createElement("td");
+        	var textoCelda = document.createTextNode(objeto[i]["nivel"]);
+       	 	celda.appendChild(textoCelda);
+        	hilera.appendChild(celda);
+
+        	var celda = document.createElement("td");
+        	var textoCelda = document.createTextNode(objeto[i]["perfil"]);
+        	celda.appendChild(textoCelda);
+        	hilera.appendChild(celda);
+
+        	var celda = document.createElement("td");
+        	var textoCelda = document.createTextNode(objeto[i]["nombreInstituto"]);
+        	celda.appendChild(textoCelda);
+        	hilera.appendChild(celda);
+
+        	tblBody.appendChild(hilera);
+    	}    
+
+    tabla.appendChild(tblBody);
+    contenido.appendChild(tabla);
+    tabla.setAttribute("border", "2");
+    fondo.appendChild(contenido);
+}
+
+}
+
+function listadoCursos(objeto) {
+	if(objeto.length != 0) {
+
+	var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:45%;");
+
+    var h2 = document.createElement("h4");
+	var texto = document.createTextNode("Cursos");
+
+    h2.appendChild(texto);
+    contenido.appendChild(h2);
+
+    var tabla = document.createElement("table");
+    tabla.setAttribute("class", "table");
+
+    var thead = document.createElement("thead");
+    thead.setAttribute("class", "thead-dark");
+
+    var tblBody = document.createElement("tbody");
+
+    var cab = document.createElement("tr");
+
+    var cab1 = document.createElement("th");
+    var texto1 = document.createTextNode("NOMBRE");
+    cab1.appendChild(texto1);
+    cab.appendChild(cab1);
+
+    var cab2 = document.createElement("th");
+    var texto2 = document.createTextNode("PERFIL");
+    cab2.appendChild(texto2);
+    cab.appendChild(cab2);
+
+    var cab3 = document.createElement("th");
+    var texto3 = document.createTextNode("DURACION");
+    cab3.appendChild(texto3);
+    cab.appendChild(cab3);
+
+
+    tblBody.appendChild(cab);
+
+    	for (var i = 0; i < objeto.length; i++) {
+        	var hilera = document.createElement("tr");
+
+        	var celda = document.createElement("td");
+        	var textoCelda = document.createTextNode(objeto[i]["nombre"]);
+        	celda.appendChild(textoCelda);
+        	hilera.appendChild(celda);
+
+        	var celda = document.createElement("td");
+        	var textoCelda = document.createTextNode(objeto[i]["centro"]);
+       	 	celda.appendChild(textoCelda);
+        	hilera.appendChild(celda);
+
+        	var celda = document.createElement("td");
+        	var textoCelda = document.createTextNode(objeto[i]["duracion"]);
+        	celda.appendChild(textoCelda);
+        	hilera.appendChild(celda);
+
+        	tblBody.appendChild(hilera);
+    	}    
+
+    tabla.appendChild(tblBody);
+    contenido.appendChild(tabla);
+    tabla.setAttribute("border", "2");
+    fondo.appendChild(contenido);
+}
+}

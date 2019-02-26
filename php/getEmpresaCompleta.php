@@ -16,7 +16,7 @@ $sql = "SELECT * FROM empresa e WHERE e.cif='" . $empresa->identificador . "'";
     if ($resultado->num_rows > 0) {
         $filaEmpresa = $resultado->fetch_array();
 
-        $sqlSolicitud = "SELECT * FROM solicitud s WHERE s.idEmpresa=" . $filaEmpresa['id'] . ";";
+        $sqlSolicitud = "SELECT * FROM solicitud s, cursos_centro cc WHERE s.idEmpresa=" . $filaEmpresa['id'] . " AND s.perfil=cc.id;";
         $resultadoSolicitud=$conn->query($sqlSolicitud);
         $arraySolicitud = array();
 
@@ -24,7 +24,7 @@ $sql = "SELECT * FROM empresa e WHERE e.cif='" . $empresa->identificador . "'";
             $filaSolicitud = $resultadoSolicitud->fetch_array();
             
             while ($filaSolicitud) {
-                $solicitud = new Solicitud($filaSolicitud["fecha"], $filaSolicitud["perfil"], 
+                $solicitud = new Solicitud($filaSolicitud["fecha"], $filaSolicitud["abreviatura"], 
                     $filaSolicitud["viajar"], $filaSolicitud["cambio_residencia"], 
                     $filaSolicitud["experiencia"], $filaSolicitud["idEmpresa"]);
                             
@@ -35,14 +35,14 @@ $sql = "SELECT * FROM empresa e WHERE e.cif='" . $empresa->identificador . "'";
         }
 
 
-        $sqlContrato = "SELECT * FROM empleadora e WHERE e.idEmpresa=" . $filaEmpresa['id'] . ";";
+        $sqlContrato = "SELECT * FROM empleadora e, empresa em WHERE e.idEmpresa=" . $filaEmpresa['id'] . " AND e.idEmpresa=em.id;";
         $resulContrato=$conn->query($sqlContrato);
         $arrayContrato = array();
 
         if ($resulContrato->num_rows > 0) {
             $filaContrato = $resulContrato->fetch_array();
             while ($filaContrato) {
-                $solicitud = new Contrato($filaContrato["dniAlumno"], $filaContrato["idEmpresa"], 
+                $solicitud = new Contrato($filaContrato["dniAlumno"], $filaContrato["cif"], 
                     $filaContrato["fechaAltaEmpleo"]);
                             
                 array_push($arrayContrato, $solicitud);

@@ -71,6 +71,22 @@ $sql = "SELECT * FROM alumno_bolsa a WHERE a.dni='" . $alumno->identificador . "
             }
         }
 
+        $sqlContrato = "SELECT * FROM empleadora e, empresa em WHERE e.dniAlumno='" . $filaAlumno['dni'] . "' AND e.idEmpresa=em.id;";
+        $resulContrato=$conn->query($sqlContrato);
+        $arrayContrato = array();
+
+        if ($resulContrato->num_rows > 0) {
+            $filaContrato = $resulContrato->fetch_array();
+            while ($filaContrato) {
+                $solicitud = new Contrato($filaContrato["dniAlumno"], $filaContrato["cif"], 
+                    $filaContrato["fechaAltaEmpleo"]);
+                            
+                array_push($arrayContrato, $solicitud);
+            
+                $filaContrato= $resulContrato->fetch_array();
+            }
+        }
+
 
 
         $alumno = new Alumno($filaAlumno["dni"], $filaAlumno["nombre"], $filaAlumno["apellidos"],
@@ -80,8 +96,8 @@ $sql = "SELECT * FROM alumno_bolsa a WHERE a.dni='" . $alumno->identificador . "
         $alumno->setEstudios($arrayEstudios);
         $alumno->setExperiencias($arrayExperiencia);
         $alumno->setCursos($arrayCursos);
+        $alumno->setContratos($arrayContrato);
 
-        print_r($alumno);
         echo JSON_encode($alumno);
     }else{
         echo JSON_encode($resultado->num_rows);
