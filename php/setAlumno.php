@@ -21,12 +21,12 @@ if($alumno->cambiarResidencia == 1) {
 }
 
 $sql = "INSERT INTO alumno_bolsa (dni, nombre, apellidos, email, residencia, password, disponibilidadViajar, cambioResidencia, telefono) VALUES ('" . $alumno->dni . "', '" . $alumno->nombre . "', '" . $alumno->apellidos . "'
-,'" . $alumno->email . "', '" . $alumno->direccion . "', '" . $alumno->password . "', '" . $viajar . "', '" . $residencia ."', '" . $alumno->telefono . "'');";
+,'" . $alumno->email . "', '" . $alumno->direccion . "', '" . $alumno->password . "', '" . $viajar . "', '" . $residencia ."', '" . $alumno->telefono . "');";
 $resultado = $conn->query($sql);
 
 if($resultado) {
 	include "enviaCorreo.php";
-	mandaCorreo($alumno->email, "Bolsa Trabajo", "Bienvenido a la Bolsa de Trabajo, 
+	mandaCorreo($alumno->email, "Bolsa Trabajo", "<h3>Hola, " . $alumno->nombre . "</h3><br>Bienvenido a la Bolsa de Trabajo, 
         su contraseña temporal es <b>" . $alumno->password . "</b>");
 	echo JSON_encode("true");
 }else{

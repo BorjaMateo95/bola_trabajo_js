@@ -8,15 +8,19 @@ global $conn;
 
 $estudios = json_decode($_REQUEST['json']);
 
+for($i=0; $i < count($estudios); $i++) {
+
 $sql = "INSERT INTO curso_centro_alumno (dni, idEstCentro)
- VALUES ('" . $estudios->dni . "', '" . $estudios->idEstudio . "');";
+ VALUES ('" . $estudios[$i]->dni . "', '" . $estudios[$i]->idEstudio . "');";
 
 $resultado = $conn->query($sql);
+
+}
 
 if($resultado) {
 	echo JSON_encode("true");
 }else{
-	echo JSON_encode("false");
+	printf("Errormessage: %s\n", $conn->error);
 }
 
 

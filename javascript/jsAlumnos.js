@@ -495,16 +495,7 @@ function insertaUsuarioBD() {
     var disponibilidadViajar = document.getElementById("viajar").checked;
     var cambioResidencia = document.getElementById("cresidencia").checked;
 
-    //cursos
-    insertaCurso(dni);
-
-    //estudios
-    insertaEstudios(dni);
-
-    //experiencia
-    insertaExperiencia(dni);
-
-    var objetoUsuario = {'dni': dni, 'nombre': nombre, 'apellidos': apellidos,
+        var objetoUsuario = {'dni': dni, 'nombre': nombre, 'apellidos': apellidos,
      'direccion': direccion, 'email': email, 'password': generaPassword(), 'telefono': telefono, 'posibilidadViajar': disponibilidadViajar,
      'cambiarResidencia': cambioResidencia};
 
@@ -514,8 +505,21 @@ function insertaUsuarioBD() {
     objetoAjax.send();
     objetoAjax.onreadystatechange = function () {
         if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
-            var datos = objetoAjax.responseText;
-            var objeto = JSON.parse(datos);
+
+            //cursos
+            insertaCurso(dni);
+
+            //estudios
+            insertaEstudios(dni);
+
+            //experiencia
+            insertaExperiencia(dni);
+
+            alert("Bienvenido, " + nombre);
+            limpiarPantalla(fondo);
+            pintaUsuarioRegistrado(objetoUsuario);
+            aniadirSubmenu("alumno", objetoUsuario);
+
         }
     }
 
@@ -523,13 +527,21 @@ function insertaUsuarioBD() {
 
 function insertaCurso(dni) {
 
+    var arrayCursos = new Array();
+
     for(i=0; i < numeroCursos; i++) {
+
         var nombreCurso = document.getElementById("cursoNombre"+i).value;
         var perfilCurso = document.getElementById("cursoPerfil"+i).value;
         var cursoHoras = document.getElementById("cursoHoras"+i).value;
 
+
         var objetoCurso = {'dni': dni, 'nombre': nombreCurso, 'perfil': perfilCurso, 'horas': cursoHoras};
-        var json = JSON.stringify(objetoCurso);
+        arrayCursos.push(objetoCurso);
+
+    }
+
+        var json = JSON.stringify(arrayCursos);
         objetoAjax = ObjetoAjax();
         objetoAjax.open('GET', "php/setCurso.php?json=" + json);
         objetoAjax.send();
@@ -538,29 +550,32 @@ function insertaCurso(dni) {
 
             }
         }
-    }
+
 
     numeroCursos = 0;
-
 
 }
 
 function insertaEstudios(dni) {
 
+    var arrayEstudios = new Array();
+
     for(i=0; i < numeroEstudios; i++) {
         var valueEstudio = document.getElementById("estudios"+i).value;
 
         var objetoEstudio = {'dni': dni, 'idEstudio': valueEstudio};
-        var json = JSON.stringify(objetoEstudio);
-        objetoAjax = ObjetoAjax();
-        objetoAjax.open('GET', "php/setEstudios.php?json=" + json);
-        objetoAjax.send();
-        objetoAjax.onreadystatechange = function () {
-            if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+        arrayEstudios.push(objetoEstudio);
 
-            }
+    }
+
+    var json = JSON.stringify(arrayEstudios);
+    objetoAjax = ObjetoAjax();
+    objetoAjax.open('GET', "php/setEstudios.php?json=" + json);
+    objetoAjax.send();
+    objetoAjax.onreadystatechange = function () {
+        if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+
         }
-
     }
 
     numeroEstudios = 0;
@@ -568,13 +583,21 @@ function insertaEstudios(dni) {
 }
 
 function insertaExperiencia(dni) {
+
+    var arrayExperiencias = new Array();
+
     for(i=0; i < numeroExperiencias; i++) {
         var expTrabajo = document.getElementById("experienciaTrabajo"+i).value;
         var expEmpresa = document.getElementById("experienciaEmpresa"+i).value;
         var expTiempo = document.getElementById("experienciaTiempo"+i).value;
 
         var objExperiencia = {'dni': dni, 'trabajo': expTrabajo, 'empresa': expEmpresa, 'tiempo': expTiempo};
-        var json = JSON.stringify(objExperiencia);
+        arrayExperiencias.push(objExperiencia);
+
+    }
+
+
+        var json = JSON.stringify(arrayExperiencias);
         objetoAjax = ObjetoAjax();
         objetoAjax.open('GET', "php/setExperiencia.php?json=" + json);
         objetoAjax.send();
@@ -583,7 +606,6 @@ function insertaExperiencia(dni) {
 
             }
         }
-    }
 
     numeroExperiencias = 0;
 }

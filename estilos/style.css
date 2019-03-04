@@ -32,3 +32,22 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+footer {
+  color:#2A2A2A;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  height: 60px; 
+}
+
+body {
+  margin: 0;
+  margin-bottom: 60px;
+}
+
+html {
+  min-height: 100%;
+  position: relative;
+}
