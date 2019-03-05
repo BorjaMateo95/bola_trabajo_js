@@ -77,8 +77,7 @@ function iniciaSesionAdmin() {
                 alert("Usuario o contraseña incorrecto");
             }else{
             	aniadirSubmenu("admin", "admin");
-                var fondo = document.getElementById("fondo");
-    			limpiarPantalla(fondo);
+                primeraPantalla();
             }
 
         }
@@ -182,6 +181,7 @@ function buscarAlumnosPerfil(idEstudio) {
             var objeto = JSON.parse(datos);
             if(objeto == 0){
                 alert("No hay alumnos disponibles para estas condiciones de busqueda");
+                primeraPantalla();
             }else{
                 listadoAlumnosPerfil(objeto);
             }
@@ -204,6 +204,7 @@ function buscarEmpresasPerfil(idEstudio) {
             var objeto = JSON.parse(datos);
             if(objeto == 0){
                 alert("No hay Empresas disponibles para esta busqueda");
+                primeraPantalla();
             }else{
                 listadoEmpresasPerfil(objeto);
             }
@@ -618,6 +619,7 @@ function buscaAlumno(identificador) {
             var objeto = JSON.parse(datos);
             if(objeto == 0){
                 alert("DNI no registrado en la base de datos");
+                primeraPantalla();
             }else{
                 listadoAlumnosPerfil(objeto, "no");
                 listadoExperiencias(objeto.arrayExperiencia);
@@ -645,6 +647,7 @@ function buscaEmpresa(identificador) {
             var objeto = JSON.parse(datos);
             if(objeto == 0){
                 alert("CIF no registrado en la base de datos");
+                primeraPantalla();
             }else{
                 listadoEmpresasPerfil(objeto, "no");
 				listadoSolicitudes(objeto.arraySolicitudes);
@@ -1056,11 +1059,290 @@ function mandaCorreo(tipo) {
                 //var datos = objetoAjax.responseText;
                 //var objeto = JSON.parse(datos);
                 //alert(objeto);
-                alert("Hemos enviado un correo electronico a todos los alumnos que llevan 6 meses sin entrar a la aplicacion");
+                alert("Hemos enviado un correo electronico a todos los alumnos que llevan 1 año sin entrar a la aplicacion");
             }else{
-                alert("Hemos enviado un correo electronico a todas las empresas que llevan 1 año sin entrar a la aplicacion");
+                alert("Hemos enviado un correo electronico a todas las empresas que llevan 6 meses sin entrar a la aplicacion");
             }
         }
     } 
+}
+
+
+function pintaEliminarAlumno() {
+
+    var fondo = document.getElementById("fondo");
+    limpiarPantalla(fondo);
+
+    var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:25%;");
+
+    var h2 = document.createElement("h2");
+
+    var texto = document.createTextNode("DNI Alumno");
+
+
+    h2.appendChild(texto);
+    contenido.appendChild(h2);
+    var form = document.createElement("form");
+    contenido.appendChild(form);
+
+    var input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.setAttribute("class", "form-control");
+    input.setAttribute("id", "identificador");
+    input.setAttribute("placeholder", "X12345678");
+    input.setAttribute("name", "identificador");
+    input.required = true;
+    form.appendChild(input);
+
+    var boton = document.createElement("button");
+    boton.setAttribute("class", "btn btn-primary btn-block");
+    boton.setAttribute("style", "width:60%; text-align: center; margin: 0 auto; margin-top: 10px;");
+    boton.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        borraAlumno(document.getElementById("identificador").value);
+
+    });
+
+
+    var texto = document.createTextNode("Eliminar Alumno");
+
+    
+    boton.appendChild(texto);
+    form.appendChild(boton);
+    fondo.appendChild(contenido);
 
 }
+
+
+function borraAlumno(dni) {
+    var objDni = {'dni': dni};
+
+    var json = JSON.stringify(objDni);
+    objetoAjax = ObjetoAjax();
+    objetoAjax.open('GET', "php/deleteAlumno.php?json=" + json);
+    objetoAjax.send();
+    objetoAjax.onreadystatechange = function () {
+        if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+            alert("Alumno Eliminado");
+            primeraPantalla();
+        }
+    } 
+}
+
+
+function pintaEliminarEmpresa() {
+
+    var fondo = document.getElementById("fondo");
+    limpiarPantalla(fondo);
+
+    var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:25%;");
+
+    var h2 = document.createElement("h2");
+
+    var texto = document.createTextNode("CIF Empresa");
+
+
+    h2.appendChild(texto);
+    contenido.appendChild(h2);
+    var form = document.createElement("form");
+    contenido.appendChild(form);
+
+    var input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.setAttribute("class", "form-control");
+    input.setAttribute("id", "identificador");
+    input.setAttribute("placeholder", "X12345678");
+    input.setAttribute("name", "identificador");
+    input.required = true;
+    form.appendChild(input);
+
+    var boton = document.createElement("button");
+    boton.setAttribute("class", "btn btn-primary btn-block");
+    boton.setAttribute("style", "width:60%; text-align: center; margin: 0 auto; margin-top: 10px;");
+    boton.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        borrarEmpresa(document.getElementById("identificador").value);
+
+    });
+
+
+    var texto = document.createTextNode("Eliminar Empresa");
+
+    boton.appendChild(texto);
+    form.appendChild(boton);
+    fondo.appendChild(contenido);
+
+}
+
+
+function borrarEmpresa(cif) {
+    var objCif = {'cif': cif};
+
+    var json = JSON.stringify(objCif);
+    objetoAjax = ObjetoAjax();
+    objetoAjax.open('GET', "php/deleteEmpresa.php?json=" + json);
+    objetoAjax.send();
+    objetoAjax.onreadystatechange = function () {
+        if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+            alert("Empresa Eliminada");
+            primeraPantalla();
+        }
+    } 
+}
+
+
+function primeraPantalla() {
+    var fondo = document.getElementById("fondo");
+    limpiarPantalla(fondo);
+
+    var contenido = document.createElement("div");
+
+    contenido.setAttribute("id", "contenido");
+    contenido.setAttribute("style", "width:65%;");
+
+    var h2 = document.createElement("h2");
+    var texto = document.createTextNode("Informacion General");
+    h2.appendChild(texto);
+    contenido.appendChild(h2);
+    var form = document.createElement("form");
+    contenido.appendChild(form);
+
+    var divrow = document.createElement("div");
+    divrow.setAttribute("class", "row");
+    contenido.appendChild(divrow);
+    form.appendChild(divrow);
+
+    var divdos = document.createElement("div");
+    divdos.setAttribute("class", "col-sm-4");
+    divrow.appendChild(divdos);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "dni");
+    var texto = document.createTextNode("Alumnos");
+    label.appendChild(texto);
+    divdos.appendChild(label);
+
+    var inputDNI = document.createElement("input");
+    inputDNI.setAttribute("type", "text");
+    inputDNI.setAttribute("class", "form-control");
+    inputDNI.setAttribute("id", "nalumnos");
+    inputDNI.setAttribute("name", "nalumnos");
+    inputDNI.disabled = true;
+    inputDNI.setAttribute("value", 33);
+
+    divdos.appendChild(inputDNI);
+    form.appendChild(divrow);
+
+    var divtres = document.createElement("div");
+    divtres.setAttribute("class", "col-sm-4");
+    divrow.appendChild(divtres);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "name");
+    var texto = document.createTextNode("Empresas");
+    label.appendChild(texto);
+    divtres.appendChild(label);
+    var inputN = document.createElement("input");
+    inputN.setAttribute("type", "text");
+    inputN.setAttribute("class", "form-control");
+    inputN.setAttribute("id", "nempresas");
+    inputN.setAttribute("name", "nempresas");
+    inputN.setAttribute("value", 8);
+    inputN.disabled = true;
+    divtres.appendChild(inputN);
+    form.appendChild(divrow);
+
+    var divcuatro = document.createElement("div");
+    divcuatro.setAttribute("class", "col-sm-4");
+    divrow.appendChild(divcuatro);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "nestudios");
+    var texto = document.createTextNode("Estudios");
+    label.appendChild(texto);
+    divcuatro.appendChild(label);
+    var inputA = document.createElement("input");
+    inputA.setAttribute("type", "text");
+    inputA.setAttribute("class", "form-control");
+    inputA.setAttribute("id", "nestudios");
+    inputA.setAttribute("name", "nestudios");
+    inputA.disabled = true;
+    inputA.setAttribute("value", 4);
+    divcuatro.appendChild(inputA);
+    form.appendChild(divrow);
+
+    var divrow2 = document.createElement("div");
+    divrow2.setAttribute("class", "row");
+    contenido.appendChild(divrow2);
+    form.appendChild(divrow2);
+
+    var divcinco = document.createElement("div");
+    divcinco.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divcinco);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "nsolicitudes");
+    var texto = document.createTextNode("Solicitudes");
+    label.appendChild(texto);
+    divcinco.appendChild(label);
+    var inputE = document.createElement("input");
+    inputE.setAttribute("type", "text");
+    inputE.setAttribute("class", "form-control");
+    inputE.setAttribute("id", "nsolicitudes");
+    inputE.setAttribute("name", "nsolicitudes");
+    inputE.setAttribute("value", 28);
+    inputE.disabled = true;
+    divcinco.appendChild(inputE);
+    form.appendChild(divrow2);
+
+    var divseis = document.createElement("div");
+    divseis.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divseis);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "ncursos");
+    var texto = document.createTextNode("Cursos");
+    label.appendChild(texto);
+    divseis.appendChild(label);
+    var inputD = document.createElement("input");
+    inputD.setAttribute("type", "text");
+    inputD.setAttribute("class", "form-control");
+    inputD.setAttribute("id", "ncursos");
+    inputD.setAttribute("name", "ncursos");
+    inputD.setAttribute("value", 6);
+    inputD.disabled = true;
+    divseis.appendChild(inputD);
+    form.appendChild(divrow2);
+
+    var divseis = document.createElement("div");
+    divseis.setAttribute("class", "col-sm-4");
+    divrow2.appendChild(divseis);
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "nempleadoras");
+    var texto = document.createTextNode("Empleadoras");
+    label.appendChild(texto);
+    divseis.appendChild(label);
+    var inputD = document.createElement("input");
+    inputD.setAttribute("type", "text");
+    inputD.setAttribute("class", "form-control");
+    inputD.setAttribute("id", "nempleadoras");
+    inputD.setAttribute("name", "nempleadoras");
+    inputD.setAttribute("value", 4);
+    inputD.disabled = true;
+    divseis.appendChild(inputD);
+    
+    form.appendChild(divrow2);
+
+    fondo.appendChild(contenido);
+}
+
+

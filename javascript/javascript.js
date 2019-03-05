@@ -162,11 +162,11 @@ function aniadirSubmenu(tipo, objeto) {
                     break;    
 
                 case 6://eliminar alumno
-                    a.addEventListener("click", function(){eliminarAlumno()});
+                    a.addEventListener("click", function(){pintaEliminarAlumno()});
                     break;
 
                 case 7://eliminar empresa
-                    a.addEventListener("click", function(){eliminarEmpresa()});
+                    a.addEventListener("click", function(){pintaEliminarEmpresa()});
                     break;
                 case 8://cerrar sesion
                     a.setAttribute("href", "");
