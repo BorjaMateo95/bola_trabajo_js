@@ -27,15 +27,16 @@ CREATE TABLE IF NOT EXISTS `alumnos` (
   `telefono` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `dni` (`dni`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla bd_alumnosproyectocliente_bml.alumnos: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla bd_alumnosproyectocliente_bml.alumnos: ~4 rows (aproximadamente)
 DELETE FROM `alumnos`;
 /*!40000 ALTER TABLE `alumnos` DISABLE KEYS */;
 INSERT INTO `alumnos` (`id`, `dni`, `nombre`, `apellidos`, `email`, `residencia`, `telefono`) VALUES
 	(1, '48258022c', 'BORJA', 'MATEO LEON', 'b@b.com', 'albacete', '6987456'),
 	(2, '12345678a', 'PEPE', 'PERAS', 'P@P.COM', 'CUENCA', '6932587'),
-	(3, '87654321A', 'PERICO', 'PALOTES', 'peri@peri.com', 'TARAZONA DE LA MANCHA', '695478123');
+	(3, '87654321A', 'PERICO', 'PALOTES', 'peri@peri.com', 'TARAZONA DE LA MANCHA', '695478123'),
+	(4, '4444444p', 'paco', 'palotes', 'orbitbml@gmail.com', 'albacete', '666666666');
 /*!40000 ALTER TABLE `alumnos` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
