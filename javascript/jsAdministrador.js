@@ -1042,3 +1042,25 @@ function listadoCursos(objeto) {
     fondo.appendChild(contenido);
 }
 }
+
+function mandaCorreo(tipo) {
+    var objTipo = {'tipo': tipo};
+
+    var json = JSON.stringify(objTipo);
+    objetoAjax = ObjetoAjax();
+    objetoAjax.open('GET', "php/mandarCorreos.php?json=" + json);
+    objetoAjax.send();
+    objetoAjax.onreadystatechange = function () {
+        if (objetoAjax.readyState === 4 && objetoAjax.status === 200) {
+            if(tipo==="alumno") {
+                //var datos = objetoAjax.responseText;
+                //var objeto = JSON.parse(datos);
+                //alert(objeto);
+                alert("Hemos enviado un correo electronico a todos los alumnos que llevan 6 meses sin entrar a la aplicacion");
+            }else{
+                alert("Hemos enviado un correo electronico a todas las empresas que llevan 1 año sin entrar a la aplicacion");
+            }
+        }
+    } 
+
+}

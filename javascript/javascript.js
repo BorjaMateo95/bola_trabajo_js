@@ -1,3 +1,6 @@
+/**
+- Funcion para eliminar objetos hijos de el objeto que le pasamos
+**/
 function limpiarPantalla(cosa) {
     var arrayHijos = cosa.children;
     for (var i = arrayHijos.length - 1; i > -1; i--) {
@@ -5,7 +8,9 @@ function limpiarPantalla(cosa) {
     }
 }
 
-
+/**
+- Crea Obj Ajax
+**/
 function ObjetoAjax() {
     if (window.XMLHttpRequest) {
         objetoAjax = new XMLHttpRequest();
@@ -15,6 +20,9 @@ function ObjetoAjax() {
     return objetoAjax;
 }
 
+/**
+- Genera contraseña aleatoria
+**/
 function generaPassword() {
     var longitud = 5;
     var caracteres = "abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789";
@@ -91,6 +99,10 @@ function enviarNuevaPassword(email, perfil) {
 
 }
 
+
+/**
+- Gestiona los menus y submenus segun quien este logueado
+**/
 function aniadirSubmenu(tipo, objeto) {
     if(tipo=="admin") {
         var liadmin = document.getElementById("liempresa");
@@ -118,26 +130,45 @@ function aniadirSubmenu(tipo, objeto) {
         liempresa.appendChild(a);
 
 
+        //Añade tantos elementos en el submenu como tengamos en la matriz
         matriz = ["Listar Alumnos por perfil", "Listar Empresas por perfil",
-         "Buscar Alumno", "Buscar Empresa", "Cerrar Sesion"];
+         "Buscar Alumno", "Buscar Empresa", "Mandar correo Alumnos", "Mandar correo Empresas",
+          "Eliminar un Alumno", "Eliminar una Empresa", "Cerrar Sesion"];
+
         for(i = 0; i < matriz.length; i++) {
             var li = document.createElement("li");
             var a = document.createElement("a");
 
             switch (i) {
-                case 0:
+                case 0://listar alumnos perfil
                     a.addEventListener("click", function(){pintaListarAlumnos("alumnos")});
                     break;
-                case 1:
+                case 1://listar empresas perfil
                     a.addEventListener("click", function(){pintaListarAlumnos("empresas")});
                     break;
-                case 2:
+                case 2://buscar alumno
                     a.addEventListener("click", function(){buscarUnAlumnoEmpresa("alumno")});
                     break;
-                case 3:
+                case 3:///buscar empresa
                     a.addEventListener("click", function(){buscarUnAlumnoEmpresa("empresa")});
                     break;
-                case 4:
+
+                case 4: //mandar correo alumnos
+                    a.addEventListener("click", function(){mandaCorreo("alumno")});
+                    break;
+                    
+                case 5://manda correo empresas
+                    a.addEventListener("click", function(){mandaCorreo("empresa")});
+                    break;    
+
+                case 6://eliminar alumno
+                    a.addEventListener("click", function(){eliminarAlumno()});
+                    break;
+
+                case 7://eliminar empresa
+                    a.addEventListener("click", function(){eliminarEmpresa()});
+                    break;
+                case 8://cerrar sesion
                     a.setAttribute("href", "");
             }
 

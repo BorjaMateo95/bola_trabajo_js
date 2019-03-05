@@ -2,6 +2,11 @@ var numeroEstudios = 0;
 var numeroExperiencias = 0;
 var numeroCursos = 0;
 
+/**
+- Pinta el usuario registrado en la BD externa
+- Pasamos un objeto Alumno
+**/
+
 function pintaCrearUsuario(alumno) {
 	var fondo = document.getElementById("fondo");
 	limpiarPantalla(fondo);
@@ -40,7 +45,7 @@ function pintaCrearUsuario(alumno) {
     inputDNI.setAttribute("placeholder", "12345678X");
     inputDNI.setAttribute("name", "dni");
     inputDNI.disabled = true;
-    inputDNI.setAttribute("value", alumno[0]["dni"]);
+    inputDNI.setAttribute("value", alumno["dni"]);
 
     divdos.appendChild(inputDNI);
     form.appendChild(divrow);
@@ -60,7 +65,7 @@ function pintaCrearUsuario(alumno) {
     inputN.setAttribute("id", "name");
     inputN.setAttribute("placeholder", "EJ: Borja");
     inputN.setAttribute("name", "name");
-    inputN.setAttribute("value", alumno[0]["nombre"]);
+    inputN.setAttribute("value", alumno["nombre"]);
     divtres.appendChild(inputN);
     form.appendChild(divrow);
 
@@ -79,7 +84,7 @@ function pintaCrearUsuario(alumno) {
     inputA.setAttribute("id", "apellidos");
     inputA.setAttribute("placeholder", "Ej: Mateo Leon");
     inputA.setAttribute("name", "apellidos");
-    inputA.setAttribute("value", alumno[0]["apellidos"]);
+    inputA.setAttribute("value", alumno["apellidos"]);
     divcuatro.appendChild(inputA);
     form.appendChild(divrow);
 
@@ -103,7 +108,7 @@ function pintaCrearUsuario(alumno) {
     inputE.setAttribute("id", "email");
     inputE.setAttribute("placeholder", "ejemplo@ejemplo.com");
     inputE.setAttribute("name", "email");
-    inputE.setAttribute("value", alumno[0]["email"]);
+    inputE.setAttribute("value", alumno["email"]);
     divcinco.appendChild(inputE);
     form.appendChild(divrow2);
 
@@ -122,7 +127,7 @@ function pintaCrearUsuario(alumno) {
     inputD.setAttribute("id", "direccion");
     inputD.setAttribute("placeholder", "c/ejemplo");
     inputD.setAttribute("name", "direccion");
-    inputD.setAttribute("value", alumno[0]["residencia"]);
+    inputD.setAttribute("value", alumno["residencia"]);
     divseis.appendChild(inputD);
     form.appendChild(divrow2);
 
@@ -141,7 +146,7 @@ function pintaCrearUsuario(alumno) {
     inputD.setAttribute("id", "telefono");
     inputD.setAttribute("placeholder", "6666666");
     inputD.setAttribute("name", "telefono");
-    inputD.setAttribute("value", alumno[0]["telefono"]);
+    inputD.setAttribute("value", alumno["telefono"]);
     divseis.appendChild(inputD);
     form.appendChild(divrow2);
 
@@ -263,6 +268,9 @@ function pintaCrearUsuario(alumno) {
 
 }
 
+/**
+- Pinta regilla para añadir cursos
+**/
 function pintaAnadirCursos(form) {
     var fondo = document.getElementById("fondo");
     var contenido = document.createElement("div");
@@ -484,6 +492,9 @@ function pintaAnadirEstudios(form) {
 
 }
 
+/**
+- Inserta los dotos del usuario en la bd.
+**/
 
 function insertaUsuarioBD() {
     var dni = document.getElementById("dni").value;
@@ -525,6 +536,10 @@ function insertaUsuarioBD() {
 
 }
 
+/**
+- Inserta cursos BD
+**/
+
 function insertaCurso(dni) {
 
     var arrayCursos = new Array();
@@ -556,6 +571,9 @@ function insertaCurso(dni) {
 
 }
 
+/**
+- Inserta estudios BD
+**/
 function insertaEstudios(dni) {
 
     var arrayEstudios = new Array();
@@ -582,6 +600,9 @@ function insertaEstudios(dni) {
 
 }
 
+/**
+- Inserta experiencias BD
+**/
 function insertaExperiencia(dni) {
 
     var arrayExperiencias = new Array();
@@ -611,6 +632,9 @@ function insertaExperiencia(dni) {
 }
 
 
+/**
+- Pinta formulario para buscar un DNI
+**/
 
 function pintaBuscarDNI() {
 	var fondo = document.getElementById("fondo");
@@ -658,6 +682,10 @@ function pintaBuscarDNI() {
     fondo.appendChild(contenido);
 
 }
+
+/**
+- Busca un DNI en la BD.
+**/
 
 function buscaDNI() {
 	var dni = document.getElementById("dni").value;
@@ -789,7 +817,9 @@ function iniciaSesion() {
 
 }
 
-
+/**
+- Guarda contraseña definitiva
+**/
 function guardarNuevaPassword(objeto) {
     var pass1 = document.getElementById("passnueva1").value;
     var pass2 = document.getElementById("passnueva2").value;
@@ -817,6 +847,9 @@ function guardarNuevaPassword(objeto) {
 }
 
 
+/**
+- Pide cambio contraseña si aun tiene la contraseña temporal
+**/
 function pideCambioContraseña(objeto) {
     var contenido = document.createElement("div");
 
@@ -1140,6 +1173,10 @@ function pintaUsuarioRegistrado(objeto) {
     form.appendChild(divboton);
     fondo.appendChild(contenido);
 }
+
+/**
+- Actualiza datos del alumno y añade cursos, estudios y experiencias
+**/
 
 function actualizarAlumno() {
     var dni = document.getElementById("dni").value;

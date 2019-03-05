@@ -20,8 +20,9 @@ if($alumno->cambiarResidencia == 1) {
     $residencia = "false";
 }
 
-$sql = "INSERT INTO alumno_bolsa (dni, nombre, apellidos, email, residencia, password, disponibilidadViajar, cambioResidencia, telefono) VALUES ('" . $alumno->dni . "', '" . $alumno->nombre . "', '" . $alumno->apellidos . "'
-,'" . $alumno->email . "', '" . $alumno->direccion . "', '" . $alumno->password . "', '" . $viajar . "', '" . $residencia ."', '" . $alumno->telefono . "');";
+$sql = "INSERT INTO alumno_bolsa (dni, nombre, apellidos, email, residencia, password, disponibilidadViajar, cambioResidencia, telefono, ultima_entrada) VALUES ('" . $alumno->dni . "', '" . $alumno->nombre . "', '" . $alumno->apellidos . "'
+,'" . $alumno->email . "', '" . $alumno->direccion . "', '" . $alumno->password . "', '" . $viajar . "', '" . $residencia ."', '" . $alumno->telefono . "', CURDATE());";
+
 $resultado = $conn->query($sql);
 
 if($resultado) {

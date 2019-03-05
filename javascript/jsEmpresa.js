@@ -1,3 +1,6 @@
+/**
+ - Pinta el contenido para dar de alta una empresa
+**/
 function pintaCrearEmpresa() {
 	var fondo = document.getElementById("fondo");
 	limpiarPantalla(fondo);
@@ -160,6 +163,9 @@ function pintaCrearEmpresa() {
     fondo.appendChild(contenido);
 }
 
+/**
+- Pinta el contenido para iniciar sesion de empresa
+**/
 function pintaIniciarSesionEmpresa() {
     var fondo = document.getElementById("fondo");
     limpiarPantalla(fondo);
@@ -233,7 +239,9 @@ function pintaIniciarSesionEmpresa() {
     fondo.appendChild(contenido);
 }
 
-
+/**
+ - Comprobamos en el servidor el login de la empresa
+**/
 function iniciaSesionEmpresa() {
     var cif = document.getElementById("cif").value;
     var password = document.getElementById("password").value;
@@ -267,6 +275,10 @@ function iniciaSesionEmpresa() {
         }
     }
 }
+
+/**
+ - Devuelve los cursos del centro.
+**/
 
 function dameCursos(idEmpresa) {
     //perfiles
@@ -416,6 +428,9 @@ function pintaSolicitarEmpleo(objeto, idEmpresa) {
 
 }
 
+/**
+ - Buscamos alumnos con unas condiciones de busqueda
+**/
 
 function buscarAlumnos(idEmpresa) {
     var perfil = document.getElementById("perfil").value;
@@ -447,6 +462,9 @@ function buscarAlumnos(idEmpresa) {
 
 }
 
+/**
+- Inserta empresa en la base de datos 
+**/
 
 function insertarEmpresaBD() {
     var cif = document.getElementById("cif").value;
@@ -477,6 +495,9 @@ function insertarEmpresaBD() {
 }
 
 
+/**
+- Guarda la ccontraseña nueva de la empresa
+**/
 function guardarNuevaPasswordEmp(identificador, idEmpresa, nombre, objeto) {
     var pass1 = document.getElementById("passnueva1").value;
     var pass2 = document.getElementById("passnueva2").value;
@@ -501,6 +522,9 @@ function guardarNuevaPasswordEmp(identificador, idEmpresa, nombre, objeto) {
 
 }
 
+/**
+- Solicita el cambio de contraseña al ser una contraseña temporal
+**/
 
 function pideCambioContraseñaEmp(identificador, idEmpresa, nombre, objeto) {
     var contenido = document.createElement("div");
@@ -558,6 +582,10 @@ function pideCambioContraseñaEmp(identificador, idEmpresa, nombre, objeto) {
     form.appendChild(boton);
     fondo.appendChild(contenido);
 }
+
+/**
+- Listado de alumnos
+**/
 
 function listadoAlumnos(objeto, idEmpresa) {
 
@@ -698,6 +726,10 @@ function listadoAlumnos(objeto, idEmpresa) {
 }
 
 
+/**
+- Contrato de un alumno
+**/
+
 function contratar(dni, idEmpresa) {
 
     var objetoContratar = {'dni': dni, 'idEmpresa': idEmpresa};
@@ -713,6 +745,10 @@ function contratar(dni, idEmpresa) {
 
 }
 
+
+/**
+- Funcion para generar un PDF
+**/
 
 function generaPDF(objeto, opcion) {
     var doc = new jsPDF();
@@ -748,6 +784,9 @@ function generaPDF(objeto, opcion) {
 
 }
 
+/**
+- Modifica los datos de una empresa
+**/
 function modificarDatosEmpresa(objeto) {
     var fondo = document.getElementById("fondo");
     limpiarPantalla(fondo);
@@ -915,6 +954,10 @@ function modificarDatosEmpresa(objeto) {
     form.appendChild(divboton);
     fondo.appendChild(contenido);
 }
+
+/**
+-Actualiza la empresa en el servidor
+**/
 
 function actualizarEmpresaBD() {
     var cif = document.getElementById("cif").value;
